@@ -362,18 +362,21 @@
   if (hasG && !reduce) {
     var mm = G.matchMedia();
     mm.add("(min-width: 901px)", function () {
-      var track = document.querySelector(".h-track"), sec = document.querySelector(".hscroll");
-      if (track && sec) {
-        G.to(track, { x: function () { return -(track.scrollWidth - window.innerWidth); }, ease: "none",
-          scrollTrigger: { trigger: sec, start: "top top", end: function () { return "+=" + (track.scrollWidth - window.innerWidth); }, pin: true, scrub: 0.8, invalidateOnRefresh: true, anticipatePin: 1 } });
-      }
+      // WICHTIG: gepinnte Kapitel in Seitenreihenfolge anlegen (Steuerjahr steht vor Leistungen).
+      // Jeder Pin verlängert die Seite; ein später angelegter Pin weiter oben verschiebt sonst alle darunter.
       var ytrack = document.querySelector(".year-track"), ypin = document.querySelector(".year-pin"), bar = document.querySelector(".year-progress span");
       if (ytrack && ypin) {
         var dist = function () { return Math.max(0, ytrack.scrollWidth - window.innerWidth); };
-        G.timeline({ scrollTrigger: { trigger: ypin, start: "center center", end: function () { return "+=" + dist(); }, pin: true, scrub: 0.8, invalidateOnRefresh: true, anticipatePin: 1 } })
+        G.timeline({ scrollTrigger: { trigger: ypin, start: "center center", end: function () { return "+=" + dist(); }, pin: true, scrub: 0.8, invalidateOnRefresh: true, anticipatePin: 1, refreshPriority: 2 } })
           .to(ytrack, { x: function () { return -dist(); }, ease: "none" }, 0)
           .to(bar, { scaleX: 1, ease: "none" }, 0);
       }
+      var track = document.querySelector(".h-track"), sec = document.querySelector(".hscroll");
+      if (track && sec) {
+        G.to(track, { x: function () { return -(track.scrollWidth - window.innerWidth); }, ease: "none",
+          scrollTrigger: { trigger: sec, start: "top top", end: function () { return "+=" + (track.scrollWidth - window.innerWidth); }, pin: true, scrub: 0.8, invalidateOnRefresh: true, anticipatePin: 1, refreshPriority: 1 } });
+      }
+      ScrollTrigger.sort(); ScrollTrigger.refresh();
     });
   }
 

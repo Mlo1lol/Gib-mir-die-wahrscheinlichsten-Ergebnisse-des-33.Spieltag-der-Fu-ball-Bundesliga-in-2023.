@@ -678,3 +678,10 @@ body.menu-open { overflow: hidden; }
 .is-loading .hero-media img, .is-loading .hero-copy > *, .is-loading .hero h1 .l, .is-loading .hero-foot .wrap { animation-play-state: paused; }
 .loader { animation: loader-safety 0.3s 5s forwards; }
 @keyframes loader-safety { to { opacity: 0; visibility: hidden; } }
+
+/* Steuerjahr-Bühne: Zähler steht mit im gepinnten Bereich, damit der Bildschirm gefüllt ist */
+.year-pin .year-sum { margin-top: 0; padding-top: 0; border-top: 0; padding-bottom: 28px; }
+.year-pin .year-progress { position: relative; left: auto; right: auto; margin-inline: var(--gutter); }
+.year-pin .year-track { padding-top: 28px; }
+@media (min-width: 1300px) { .year-pin .year-progress { margin-inline: calc((100vw - var(--wrap)) / 2); } }
+@media (min-width: 901px) { .month { min-height: min(440px, 52vh); } }
