@@ -245,4 +245,149 @@
     ["name", "reach"].forEach(function (n) { form.elements[n].addEventListener("input", function () { if (this.closest(".field").hasAttribute("data-invalid")) setErr(n, ""); }); });
     form.elements.privacy.addEventListener("change", function () { if (this.checked) setErr("privacy", ""); });
   }
+
+  /* =====================================================================
+     Version 3: Steuerjahr, Vorspann, Zeilen-Masken, Kapitel, Lenis, Magnet
+     ===================================================================== */
+  var G = window.gsap, ST = window.ScrollTrigger, SPLIT = window.SplitText, LENIS = window.Lenis;
+  var hasG = !!(G && ST);
+  if (hasG) G.registerPlugin(ST); if (hasG && SPLIT) G.registerPlugin(SPLIT);
+  var desktop = window.matchMedia("(min-width: 901px)");
+  var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  /* ---------- Steuerjahr ---------- */
+  var monthNames = mLong;
+  function yearEvents(pr, from) {
+    var ev = [], y0 = from.getFullYear(), m0 = from.getMonth();
+    function push(date, what, note, k) { ev.push({ date: date, what: what, note: note || "", k: k || "" }); }
+    for (var i = 0; i < 12; i++) {
+      var y = y0 + Math.floor((m0 + i) / 12), m = (m0 + i) % 12;
+      var biz = pr.form !== "privat";
+      if (biz && (!pr.quarterly || m % 3 === 0)) push(shift(d(y, m, 10)), "Umsatzsteuer-Voranmeldung", pr.quarterly ? "für das abgelaufene Quartal" : "für den Vormonat", "ust");
+      if (biz && pr.staff) {
+        push(shift(d(y, m, 10)), "Lohnsteuer-Anmeldung", "für den Vormonat", "lst");
+        push(thirdLastBank(y, m), "Sozialversicherungsbeiträge", "drittletzter Bankarbeitstag", "sv");
+      }
+      if (m % 3 === 2) {
+        if (pr.form === "gmbh") push(shift(d(y, m, 10)), "Körperschaftsteuer-Vorauszahlung", "mit Solidaritätszuschlag", "vz");
+        else push(shift(d(y, m, 10)), "Einkommensteuer-Vorauszahlung", "falls festgesetzt", "vz");
+      }
+      if ((pr.form === "gmbh" || pr.form === "gewerbe") && m % 3 === 1) push(shift(d(y, m, 15)), "Gewerbesteuer-Vorauszahlung", "an die Gemeinde", "vz");
+      if (m === 1 || m === 2) {
+        var due = shift(d(y, 2, 0));
+        if (due.getMonth() === m) push(due, "Abgabe Steuererklärungen " + (y - 2), "mit Steuerberater", "erkl");
+      }
+      if (pr.form === "gmbh" && m === 11) push(d(y, 11, 31), "Offenlegung Jahresabschluss " + (y - 1), "im Unternehmensregister", "hgb");
+    }
+    return ev.sort(function (a, b) { return a.date - b.date || a.what.localeCompare(b.what); });
+  }
+
+  var yearEl = document.querySelector("[data-year]"), profileForm = document.querySelector("[data-profile]");
+  var totalEl = document.querySelector("[data-total]"), totalWord = document.querySelector("[data-total-word]");
+  var shownTotal = 0;
+  function readProfile() {
+    var f = profileForm.elements;
+    return { form: f.form.value, staff: f.staff.checked, quarterly: f.quarterly.checked };
+  }
+  function renderYear(animate) {
+    if (!yearEl) return;
+    var pr = readProfile();
+    var privat = pr.form === "privat";
+    profileForm.querySelectorAll(".switch").forEach(function (s) { s.classList.toggle("is-off", privat); s.querySelector("input").disabled = privat; });
+    var start = d(today.getFullYear(), today.getMonth(), 1);
+    var evs = yearEvents(pr, start), html = "", upcoming = 0;
+    for (var i = 0; i < 12; i++) {
+      var y = start.getFullYear() + Math.floor((start.getMonth() + i) / 12), m = (start.getMonth() + i) % 12;
+      var items = evs.filter(function (e) { return e.date.getFullYear() === y && e.date.getMonth() === m; });
+      html += '<li class="month' + (i === 0 ? " is-now" : "") + '"><div class="month-head"><h3>' + monthNames[m] + "</h3><small>" + (i === 0 ? "jetzt" : y) + "</small></div>";
+      if (items.length) {
+        html += "<ul>" + items.map(function (e) {
+          var past = e.date < today; if (!past) upcoming++;
+          return '<li class="ev' + (past ? " is-past" : "") + '" data-k="' + e.k + '"><span class="ev-day tnum">' + e.date.getDate() + '.</span><span class="ev-what">' + e.what + "<small>" + e.note + "</small></span></li>";
+        }).join("") + "</ul>";
+      } else html += '<p class="month-empty">Keine festen Termine.</p>';
+      html += "</li>";
+    }
+    var paint = function () {
+      yearEl.innerHTML = html;
+      if (hasG && animate && !reduce) G.from(yearEl.querySelectorAll(".ev, .month-empty"), { y: 14, opacity: 0, duration: 0.6, ease: "expo.out", stagger: 0.012 });
+      if (hasG) ST.refresh();
+    };
+    if (hasG && animate && !reduce) G.to(yearEl.querySelectorAll(".ev, .month-empty"), { opacity: 0, y: -8, duration: 0.18, ease: "power1.in", onComplete: paint }); else paint();
+    if (totalWord) totalWord.textContent = upcoming === 1 ? "Termin" : "Termine";
+    if (hasG && !reduce) { var o = { v: shownTotal }; G.to(o, { v: upcoming, duration: 0.9, ease: "expo.out", onUpdate: function () { totalEl.textContent = Math.round(o.v); } }); }
+    else totalEl.textContent = upcoming;
+    shownTotal = upcoming;
+  }
+  if (profileForm) { profileForm.addEventListener("change", function () { renderYear(true); }); renderYear(false); }
+
+  /* ---------- Weiches Scrollen (Lenis), nur Maus/Trackpad ---------- */
+  var lenis = null;
+  if (hasG && LENIS && !reduce) {
+    lenis = new LENIS({ lerp: 0.1, anchors: { offset: -60 }, autoRaf: false });
+    lenis.on("scroll", ST.update);
+    G.ticker.add(function (t) { lenis.raf(t * 1000); });
+    G.ticker.lagSmoothing(0);
+  }
+
+  /* ---------- Vorspann ---------- */
+  var loader = document.querySelector(".loader");
+  function playHero() {
+    root.classList.remove("is-loading");
+  }
+  if (loader && !root.classList.contains("no-intro") && hasG) {
+    root.classList.add("is-loading");
+    if (lenis) lenis.stop();
+    G.timeline({ defaults: { ease: "expo.out" }, onComplete: function () { loader.remove(); if (lenis) lenis.start(); try { sessionStorage.setItem("koop-intro", "1"); } catch (e) {} } })
+      .from(".loader-mark span", { yPercent: 110, duration: 0.9, stagger: 0.05 })
+      .to(".loader-line i", { scaleX: 1, duration: 0.8, ease: "power2.inOut" }, 0.15)
+      .to(".loader-mark span", { yPercent: -110, duration: 0.6, stagger: 0.03, ease: "expo.in" }, 1.0)
+      .to(loader, { clipPath: "inset(0 0 100% 0)", duration: 0.9, ease: "expo.inOut", onStart: playHero }, 1.35);
+  } else if (loader) loader.remove();
+
+  /* ---------- Überschriften schälen sich zeilenweise aus Masken ---------- */
+  if (hasG && SPLIT && !reduce) {
+    document.querySelectorAll("[data-split]").forEach(function (el) {
+      SPLIT.create(el, {
+        type: "lines", mask: "lines", linesClass: "split-line", autoSplit: true,
+        onSplit: function (self) {
+          return G.from(self.lines, { yPercent: 105, duration: 1.15, ease: "expo.out", stagger: 0.09,
+            scrollTrigger: { trigger: el, start: "top 88%", once: true } });
+        }
+      });
+    });
+  }
+
+  /* ---------- Gepinnte Kapitel: Leistungen und Steuerjahr laufen seitwärts ---------- */
+  if (hasG && !reduce) {
+    var mm = G.matchMedia();
+    mm.add("(min-width: 901px)", function () {
+      var track = document.querySelector(".h-track"), sec = document.querySelector(".hscroll");
+      if (track && sec) {
+        G.to(track, { x: function () { return -(track.scrollWidth - window.innerWidth); }, ease: "none",
+          scrollTrigger: { trigger: sec, start: "top top", end: function () { return "+=" + (track.scrollWidth - window.innerWidth); }, pin: true, scrub: 0.8, invalidateOnRefresh: true, anticipatePin: 1 } });
+      }
+      var ytrack = document.querySelector(".year-track"), ypin = document.querySelector(".year-pin"), bar = document.querySelector(".year-progress span");
+      if (ytrack && ypin) {
+        var dist = function () { return Math.max(0, ytrack.scrollWidth - window.innerWidth); };
+        G.timeline({ scrollTrigger: { trigger: ypin, start: "center center", end: function () { return "+=" + dist(); }, pin: true, scrub: 0.8, invalidateOnRefresh: true, anticipatePin: 1 } })
+          .to(ytrack, { x: function () { return -dist(); }, ease: "none" }, 0)
+          .to(bar, { scaleX: 1, ease: "none" }, 0);
+      }
+    });
+  }
+
+  /* ---------- Magnetische Buttons ---------- */
+  if (hasG && finePointer && !reduce) {
+    document.querySelectorAll("[data-magnetic]").forEach(function (el) {
+      var xTo = G.quickTo(el, "x", { duration: 0.6, ease: "expo.out" }), yTo = G.quickTo(el, "y", { duration: 0.6, ease: "expo.out" });
+      el.addEventListener("pointermove", function (e) {
+        var r = el.getBoundingClientRect();
+        xTo((e.clientX - (r.left + r.width / 2)) * 0.28); yTo((e.clientY - (r.top + r.height / 2)) * 0.38);
+      });
+      el.addEventListener("pointerleave", function () { xTo(0); yTo(0); });
+    });
+  }
+
+  if (hasG) { window.addEventListener("load", function () { ST.refresh(); }); }
 })();

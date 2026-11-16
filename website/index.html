@@ -16,6 +16,7 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" as="image" href="assets/img/schloss-abend-1920.webp" imagesrcset="assets/img/schloss-abend-720.webp 720w, assets/img/schloss-abend-1280.webp 1280w, assets/img/schloss-abend-1920.webp 1920w" imagesizes="(orientation: portrait) 170vh, 100vw">
   <link rel="preload" href="assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/vendor/lenis.css">
   <link rel="stylesheet" href="assets/site.css">
   <script type="application/ld+json">
   {
@@ -48,6 +49,12 @@
   </defs>
 </svg>
 
+<div class="loader" aria-hidden="true">
+  <div class="loader-mark"><span>K</span><span>o</span><span>o</span><span>p</span><span class="dot">.</span></div>
+  <div class="loader-line"><i></i></div>
+</div>
+<script>try{if(sessionStorage.getItem("koop-intro")||matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("no-intro");}catch(e){}</script>
+
 <a class="skip" href="#inhalt">Zum Inhalt springen</a>
 
 <header class="nav-bar">
@@ -57,6 +64,7 @@
       <a href="#leistungen">Leistungen</a>
       <a href="#bau">Bau</a>
       <a href="#mandanten">Für wen</a>
+      <a href="#fristen">Fristen</a>
       <a href="#ablauf">Ablauf</a>
       <a href="#team">Team</a>
       <a href="#kontakt">Kontakt</a>
@@ -71,6 +79,7 @@
   <a href="#leistungen" style="--i:0">Leistungen</a>
   <a href="#bau" style="--i:1">Bau</a>
   <a href="#mandanten" style="--i:2">Für wen</a>
+  <a href="#fristen" style="--i:3">Fristen</a>
   <a href="#ablauf" style="--i:3">Ablauf</a>
   <a href="#team" style="--i:4">Team</a>
   <a href="#kontakt" style="--i:5">Kontakt</a>
@@ -89,7 +98,7 @@
         <h1 id="hero-title"><span class="l">Ihr Steuerberater</span><span class="l">in <em class="s">Schwerin.</em></span></h1>
         <p class="hero-sub">Für Bau, freie Berufe und Mittelstand. Dietmar Koop ist seit 1998 Steuerberater.</p>
         <div class="hero-actions">
-          <a class="btn" href="#kontakt">Erstgespräch vereinbaren</a>
+          <a class="btn" href="#kontakt" data-magnetic>Erstgespräch vereinbaren</a>
           <a class="more light" href="#leistungen">Leistungen ansehen <span class="chev" aria-hidden="true">›</span></a>
         </div>
       </div>
@@ -112,47 +121,59 @@
     </div>
   </section>
 
-  <!-- Fristen: der Zettel richtet sich beim Scrollen auf -->
-  <section class="sec deadlines" aria-labelledby="fristen-title">
-    <div class="wrap dl-grid">
-      <div class="dl-copy">
-        <h2 id="fristen-title" data-reveal>Ihre Fristen. <em class="s">Immer im Blick.</em></h2>
-        <p data-reveal style="--d:120ms">Umsatzsteuer, Lohnsteuer, Sozialversicherung, Vorauszahlungen: Wir kennen Ihre Termine, bevor sie drängen. Hier sehen Sie die nächsten, tagesaktuell berechnet.</p>
-        <div class="big-date" data-reveal style="--d:220ms" data-return-deadline>
-          <small>Steuererklärung <span data-vz>2025</span> mit Steuerberater abgeben bis</small>
-          <strong class="tnum">1. März 2027</strong>
-          <span>Ohne Berater endet die Frist am 31. Juli des Folgejahres. Mit uns haben Sie sieben Monate mehr Zeit.</span>
-        </div>
+  <!-- Signature: Ihr Steuerjahr. Rechtsform wählen, Zeitstrahl scrollt durch zwölf Monate. -->
+  <section class="year" id="fristen" aria-labelledby="year-title">
+    <div class="year-intro wrap">
+      <div class="year-head">
+        <h2 id="year-title" data-split>Ihr Steuerjahr. <em class="s">Auf einen Blick.</em></h2>
+        <p data-reveal>Wählen Sie, was auf Sie zutrifft. Die Seite rechnet Ihre Termine der nächsten zwölf Monate aus, mit Wochenenden und Feiertagen in Mecklenburg-Vorpommern.</p>
       </div>
-      <div class="slip-scene">
-        <div class="slip" data-scroll="enter" data-ease>
-          <div class="slip-head">
-            <h3>Die nächsten Steuertermine</h3>
-            <span class="slip-today tnum" data-today></span>
-          </div>
-          <ol class="slip-list" data-deadlines>
-            <li style="--i:0"><span class="slip-date tnum">10.</span><span class="slip-what"><span>Umsatzsteuer-Voranmeldung, Lohnsteuer-Anmeldung, jeden Monat</span></span><span class="slip-in"></span></li>
-            <li style="--i:1"><span class="slip-date tnum">10.</span><span class="slip-what"><span>Vorauszahlung Einkommen- und Körperschaftsteuer im März, Juni, September, Dezember</span></span><span class="slip-in"></span></li>
-            <li style="--i:2"><span class="slip-date tnum">15.</span><span class="slip-what"><span>Vorauszahlung Gewerbe- und Grundsteuer im Februar, Mai, August, November</span></span><span class="slip-in"></span></li>
-          </ol>
-          <p class="slip-fine">Berechnet mit Wochenenden und Feiertagen in Mecklenburg-Vorpommern. Ohne Gewähr, Ihre persönlichen Termine besprechen wir mit Ihnen.</p>
+      <form class="profile" data-profile aria-label="Ihre Angaben für den Fristenkalender" data-reveal>
+        <fieldset class="chips">
+          <legend>Ich bin</legend>
+          <label><input type="radio" name="form" value="gmbh" checked><span>GmbH oder UG</span></label>
+          <label><input type="radio" name="form" value="gewerbe"><span>Gewerbetreibend</span></label>
+          <label><input type="radio" name="form" value="frei"><span>Freiberuflich</span></label>
+          <label><input type="radio" name="form" value="privat"><span>Privatperson</span></label>
+        </fieldset>
+        <div class="toggles">
+          <label class="switch"><input type="checkbox" name="staff" checked><span class="track" aria-hidden="true"></span><span>Mit Angestellten</span></label>
+          <label class="switch" data-vat><input type="checkbox" name="quarterly"><span class="track" aria-hidden="true"></span><span>Umsatzsteuer vierteljährlich</span></label>
         </div>
+      </form>
+      <div class="year-sum" aria-live="polite">
+        <strong class="tnum" data-total>0</strong>
+        <span><b data-total-word>Termine</b> in den nächsten zwölf Monaten. Wir behalten jeden davon im Blick.</span>
       </div>
+    </div>
+    <div class="year-pin">
+      <div class="year-progress" aria-hidden="true"><span></span></div>
+      <ol class="year-track" data-year aria-label="Steuertermine der nächsten zwölf Monate"></ol>
+    </div>
+    <div class="wrap year-foot">
+      <div class="big-date" data-reveal data-return-deadline>
+        <small>Steuererklärung <span data-vz>2025</span> mit Steuerberater abgeben bis</small>
+        <strong class="tnum">1. März 2027</strong>
+        <span>Ohne Berater endet die Frist am 31. Juli des Folgejahres. Mit uns haben Sie sieben Monate mehr Zeit.</span>
+      </div>
+      <p class="year-fine">Berechnet nach § 108 AO mit Wochenenden und Feiertagen in Mecklenburg-Vorpommern, Sozialversicherung zum drittletzten Bankarbeitstag. Ohne Gewähr: Sonderfälle wie Dauerfristverlängerung oder abweichende Wirtschaftsjahre besprechen wir mit Ihnen.</p>
     </div>
   </section>
 
-  <!-- Leistungen -->
-  <section class="sec on-paper2" id="leistungen" aria-labelledby="leistungen-title">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2 id="leistungen-title" data-reveal>Von der Erklärung bis zur <em class="s">Übergabe.</em></h2>
-        <p data-reveal style="--d:120ms">Das Tagesgeschäft erledigen wir zuverlässig. Wo es um Entscheidungen geht, rechnen wir Varianten durch, bevor Sie unterschreiben.</p>
-      </div>
-      <div class="bento">
-        <article class="tile tile-a" data-reveal="scale">
+  <!-- Leistungen: horizontales Kapitel -->
+  <section class="hscroll on-paper2" id="leistungen" aria-labelledby="leistungen-title">
+    <div class="h-pin">
+      <div class="h-track">
+        <div class="panel panel-intro">
+          <h2 id="leistungen-title" data-split>Von der Erklärung bis zur <em class="s">Übergabe.</em></h2>
+          <p>Das Tagesgeschäft erledigen wir zuverlässig. Wo es um Entscheidungen geht, rechnen wir Varianten durch, bevor Sie unterschreiben.</p>
+          <p class="h-hint" aria-hidden="true">Weiterscrollen <span class="h-arrow">→</span></p>
+        </div>
+        <article class="panel panel-dark">
+          <span class="panel-word" aria-hidden="true">Abschluss</span>
           <h3>Erklärungen und Abschlüsse.</h3>
           <p>Für Privatpersonen, Einzelunternehmen und Gesellschaften jeder Rechtsform. Pünktlich und geprüft.</p>
-          <ul class="tile-list">
+          <ul>
             <li>Einkommen-, Körperschaft-, Gewerbe- und Umsatzsteuer</li>
             <li>Jahresabschluss und Einnahmen-Überschuss-Rechnung</li>
             <li>Finanzbuchhaltung, Lohn und Baulohn</li>
@@ -160,41 +181,45 @@
             <li>Erbschaft- und Schenkungsteuer, Investitionszulage</li>
           </ul>
         </article>
-        <article class="tile tile-b" data-reveal="scale" style="--d:100ms">
+        <article class="panel">
+          <span class="panel-word" aria-hidden="true">Vertretung</span>
           <h3>Vertretung beim Finanzamt.</h3>
           <p>Wenn das Finanzamt Fragen hat, antworten wir.</p>
-          <ul class="tile-list">
-            <li>Betriebsprüfungen</li>
+          <ul>
+            <li>Begleitung von Betriebsprüfungen</li>
             <li>Einspruch und Rechtsbehelfe</li>
-            <li>Finanzgericht bis Bundesfinanzhof</li>
+            <li>Vertretung vor dem Finanzgericht</li>
+            <li>Verfahren bis zum Bundesfinanzhof</li>
           </ul>
         </article>
-        <article class="tile tile-c" data-reveal="scale">
+        <article class="panel">
+          <span class="panel-word" aria-hidden="true">Struktur</span>
           <h3>Steuern gestalten.</h3>
           <p>Die richtige Struktur spart jedes Jahr wieder.</p>
-          <ul class="tile-list">
+          <ul>
             <li>Rechtsformwahl und Umwandlung</li>
             <li>Holding und Organschaft</li>
             <li>Steuerplanung und Belastungsvergleiche</li>
-            <li>Kauf, Verkauf, Beteiligungen, vorweggenommene Erbfolge</li>
+            <li>Kauf, Verkauf, Beteiligungen</li>
+            <li>Vorweggenommene Erbfolge</li>
           </ul>
         </article>
-        <article class="tile tile-d" data-reveal="scale" style="--d:100ms">
+        <article class="panel">
+          <span class="panel-word" aria-hidden="true">Zahlen</span>
           <h3>Zahlen für Entscheidungen.</h3>
           <p>Betriebswirtschaft, wie die Bank sie sehen will.</p>
-          <ul class="tile-list">
+          <ul>
             <li>Controlling und monatliche Auswertungen</li>
-            <li>Liquiditäts- und Finanzierungspläne, Bankgespräche</li>
-            <li>Gründung, Sanierung und Restrukturierung</li>
+            <li>Liquiditäts- und Finanzierungspläne</li>
+            <li>Bankgespräche und Ratingvorbereitung</li>
+            <li>Gründung, Sanierung, Restrukturierung</li>
             <li>Unternehmensnachfolge: Plan, Wert, Übergabe</li>
           </ul>
         </article>
-        <div class="tile tile-e" data-reveal="scale">
-          <div>
-            <h3>Wechsel zu uns? Einfacher als gedacht.</h3>
-            <p>Den Kontakt zu Ihrem bisherigen Berater und zum Finanzamt übernehmen wir.</p>
-          </div>
-          <a class="btn" href="#ablauf">So läuft der Wechsel</a>
+        <div class="panel panel-brick">
+          <h3>Wechsel zu uns? Einfacher als gedacht.</h3>
+          <p>Den Kontakt zu Ihrem bisherigen Berater und zum Finanzamt übernehmen wir.</p>
+          <a class="btn btn-light" href="#ablauf" data-magnetic>So läuft der Wechsel</a>
         </div>
       </div>
     </div>
@@ -204,7 +229,7 @@
   <section class="sec on-night bau" id="bau" aria-labelledby="bau-title">
     <div class="wrap bau-grid">
       <div class="bau-copy">
-        <h2 id="bau-title" data-reveal>Den Bau kennen wir <em class="s">von innen.</em></h2>
+        <h2 id="bau-title" data-split>Den Bau kennen wir <em class="s">von innen.</em></h2>
         <p data-reveal style="--d:120ms">Von 1998 bis 2008 verantwortete Dietmar Koop neben seiner Kanzlei die Finanzen einer Bauholding: Finanzplanung, Bürgschaften, Abschlüsse, Umstrukturierungen und Firmenkäufe. Mit uns sprechen Sie über Abschlagsrechnungen, Nachunternehmer und Avale, ohne erst erklären zu müssen.</p>
         <div class="stats">
           <div class="stat" data-reveal><strong class="tnum" data-count="1998" data-from="1960">1998</strong><span>Steuerberater seit</span></div>
@@ -239,7 +264,7 @@
   <section class="sec" id="mandanten" aria-labelledby="mandanten-title">
     <div class="wrap">
       <div class="sec-head">
-        <h2 id="mandanten-title" data-reveal>Für wen wir arbeiten.</h2>
+        <h2 id="mandanten-title" data-split>Für wen wir arbeiten.</h2>
         <p data-reveal style="--d:120ms">Vom Handwerksbetrieb bis zum gehobenen Mittelstand. Uns sind lange Zusammenarbeiten lieber als schnelle Aufträge.</p>
       </div>
     </div>
@@ -262,7 +287,7 @@
     <div class="process-stage">
       <div class="wrap">
         <div class="sec-head">
-          <h2 id="ablauf-title">So beginnt die Zusammenarbeit.</h2>
+          <h2 id="ablauf-title" data-split>So beginnt die Zusammenarbeit.</h2>
           <p>Vier Schritte. Den Papierkram mit Ihrem bisherigen Berater und dem Finanzamt übernehmen wir.</p>
         </div>
         <ol class="steps">
@@ -273,7 +298,7 @@
         </ol>
         <div class="process-note">
           <p>Die Gebühren richten sich nach der Steuerberatervergütungsverordnung. Was es in Ihrem Fall kostet, sagen wir Ihnen vorher.</p>
-          <a class="btn btn-ghost on-light" href="#kontakt">Termin anfragen</a>
+          <a class="btn btn-ghost on-light" href="#kontakt" data-magnetic>Termin anfragen</a>
         </div>
       </div>
     </div>
@@ -283,7 +308,7 @@
   <section class="sec" id="team" aria-labelledby="team-title">
     <div class="wrap">
       <div class="sec-head">
-        <h2 id="team-title" data-reveal>Menschen, die Ihre <em class="s">Zahlen kennen.</em></h2>
+        <h2 id="team-title" data-split>Menschen, die Ihre <em class="s">Zahlen kennen.</em></h2>
         <p data-reveal style="--d:120ms">Kein Callcenter, keine Weiterleitung. Sie sprechen mit den Leuten, die Ihre Buchhaltung machen.</p>
       </div>
       <div class="team-grid">
@@ -333,7 +358,7 @@
   <section class="sec on-night contact" id="kontakt" aria-labelledby="kontakt-title">
     <div class="wrap contact-grid">
       <div>
-        <h2 id="kontakt-title" data-reveal>Sprechen wir.</h2>
+        <h2 id="kontakt-title" data-split>Sprechen wir.</h2>
         <p class="contact-lead" data-reveal style="--d:100ms">Am schnellsten per Telefon. Oder Sie schreiben uns, wir melden uns zurück.</p>
         <a class="phone-big tnum" href="tel:+4938577333650" data-reveal style="--d:180ms">0385 77 333 650</a>
         <p class="open-state" data-open><span class="open-dot" aria-hidden="true"></span><span>Mo bis Do 9 bis 16 Uhr, Fr 9 bis 13 Uhr</span></p>
@@ -394,7 +419,7 @@
           </div>
         </div>
         <div class="form-foot">
-          <button class="btn" type="submit">Anfrage absenden</button>
+          <button class="btn" type="submit" data-magnetic>Anfrage absenden</button>
           <p class="form-status" aria-live="polite"></p>
         </div>
       </form>
@@ -404,6 +429,7 @@
 </main>
 
 <footer class="foot">
+  <div class="foot-mark" aria-hidden="true" data-scroll="enter" data-ease><span>Koop.</span></div>
   <div class="wrap">
     <div class="foot-top">
       <p>Dietmar Koop Steuerberatung · Neu Pampow 9a · 19061 Schwerin · <a href="tel:+4938577333650">0385 77 333 650</a></p>
@@ -418,6 +444,10 @@
   </div>
 </footer>
 
+<script src="assets/vendor/gsap.min.js" defer></script>
+<script src="assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="assets/vendor/SplitText.min.js" defer></script>
+<script src="assets/vendor/lenis.min.js" defer></script>
 <script src="assets/site.js" defer></script>
 </body>
 </html>
