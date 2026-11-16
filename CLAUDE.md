@@ -9,6 +9,7 @@ Nach **jeder** Änderung an HTML, CSS oder JavaScript, bevor etwas als fertig ge
 
 1. `python3 qa/bundle.py` (Einzeldateien neu bauen)
 2. `node qa/check.js` (muss mit „Alles in Ordnung“ enden)
+3. `node qa/a11y.js` (muss mit „Keine Befunde“ enden; braucht `npm i --no-save axe-core`)
 
 Die Prüfung scrollt jede Seite mit echtem Mausrad auf sieben Bildschirmgrößen durch und findet:
 leere Bildschirme (Leerlauf), verschobene gepinnte Kapitel, seitliches Scrollen, Konsolenfehler,
@@ -27,3 +28,5 @@ halb leerer Bildschirm ist ein Fehler, kein Zwischenzustand.
 - Keine Verbindung zu fremden Servern (keine Google Fonts, keine CDNs). Alles liegt in `assets/`.
 - Inhalte müssen ohne JavaScript und mit „Bewegung reduzieren“ sichtbar bleiben.
 - Keine erfundenen Fakten über die Kanzleien. Unbestätigtes bleibt als Platzhalter markiert.
+- Nichts im Browser speichern (kein Cookie, kein localStorage, kein sessionStorage): § 25 TDDDG.
+- Rechtstexte bleiben Entwürfe, bis der Kanzleiinhaber sie freigibt. Offene Punkte stehen in `RECHTS-CHECK.md`.

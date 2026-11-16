@@ -462,6 +462,7 @@ summary:hover{color:var(--accent-text)}
 .foot-mark span i{font-style:normal;color:var(--accent)}
 @media (prefers-reduced-motion:reduce){.btn,.steps li,summary::after,nav ul a::after{transition:none}}
 </style>
+<style>.legal-inline{padding:clamp(72px,9vw,120px) 0;border-top:1px solid rgba(128,128,128,.3)}.legal-inline .legal-h1{font-size:clamp(2.4rem,5vw,3.6rem);margin:0 0 .4em}.legal-inline h2:not(.legal-h1){font-size:1.5rem;margin:44px 0 10px}.legal-inline p,.legal-inline ul,.legal-inline address{max-width:68ch}.legal-inline address{font-style:normal;margin-bottom:1em}</style>
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt</a>
@@ -781,13 +782,81 @@ summary:hover{color:var(--accent-text)}
       <label for="u">Unterlagen (optional)</label><input id="u" name="unterlagen" type="file" accept=".pdf,.jpg,.jpeg,.png" multiple>
       <label class="check"><input type="checkbox" name="rueckruf" id="rr"> Bitte rufen Sie mich zurück.</label>
       <div id="rr-wrap" hidden><label for="rz">Am besten erreichbar</label><select id="rz" name="erreichbar"><option>vormittags</option><option>nachmittags</option><option>abends</option></select></div>
-      <label class="check"><input type="checkbox" id="ds" required aria-describedby="ds-err"> <span>Ich habe die <a href="#">Datenschutzerklärung</a> <span class="ph ph-short">[Link folgt]</span> gelesen und bin mit der Verarbeitung meiner Angaben zur Bearbeitung der Anfrage einverstanden. *</span></label><p class="err" id="ds-err">Bitte bestätigen Sie die Datenschutzhinweise.</p>
+      <label class="check"><input type="checkbox" id="ds" required aria-describedby="ds-err"> <span>Ich habe die <a href="#datenschutz">Datenschutzhinweise</a> zur Kenntnis genommen. Meine Angaben werden zur Bearbeitung der Anfrage verwendet. *</span></label><p class="err" id="ds-err">Bitte bestätigen Sie die Datenschutzhinweise.</p>
       <button class="btn btn-primary" style="margin-top:24px;width:100%" type="submit" data-magnetic>Anfrage absenden</button>
       <p class="hint">Durch die Anfrage kommt noch kein Mandatsverhältnis zustande. Bitte senden Sie fristgebundene Unterlagen nicht ausschließlich über dieses Formular.</p>
       <div class="ok" id="ok" role="status"></div>
     </form>
   </div>
 </section>
+
+  <section class="legal legal-page legal-inline" id="impressum">
+  <div class="wrap">
+    <h2 class="legal-h1">Impressum</h2>
+    <p class="lead">Angaben nach § 5 Digitale-Dienste-Gesetz (DDG) und der Dienstleistungs-Informationspflichten-Verordnung (DL-InfoV).</p>
+
+    <h2>Anbieter</h2>
+    <address>Rechtsanwalt Klaus-Rainer Tietmann<br>Werkstraße 209<br>19061 Schwerin</address>
+    <p>Telefon <a href="tel:+49385616225">0385&nbsp;61&nbsp;62&nbsp;25</a><br>E-Mail <a href="mailto:ra-tietmann-sn@t-online.de">ra-tietmann-sn@t-online.de</a></p>
+    <p>Umsatzsteuer-Identifikationsnummer nach § 27a UStG: <span class="ph">[falls vorhanden eintragen, sonst Zeile streichen]</span></p>
+
+    <h2>Berufsbezeichnung und Kammer</h2>
+    <p>Gesetzliche Berufsbezeichnung: Rechtsanwalt, verliehen in der Bundesrepublik Deutschland.</p>
+    <p>Zuständige Rechtsanwaltskammer und Aufsichtsbehörde: <span class="ph">[Name und Anschrift der Rechtsanwaltskammer, voraussichtlich Rechtsanwaltskammer Mecklenburg-Vorpommern, bitte bestätigen]</span></p>
+
+    <h2>Berufsrechtliche Regelungen</h2>
+    <ul>
+      <li>Bundesrechtsanwaltsordnung (BRAO)</li>
+      <li>Berufsordnung für Rechtsanwälte (BORA)</li>
+      <li>Fachanwaltsordnung (FAO)</li>
+      <li>Rechtsanwaltsvergütungsgesetz (RVG)</li>
+      <li>Berufsregeln der Rechtsanwälte der Europäischen Union (CCBE)</li>
+    </ul>
+    <p>Die Regelungen sind auf der Website der Bundesrechtsanwaltskammer unter <a href="https://www.brak.de" rel="noopener">www.brak.de</a> in der Rubrik „Berufsrecht“ einsehbar.</p>
+
+    <h2>Berufshaftpflichtversicherung</h2>
+    <p><span class="ph">[Name und Anschrift des Versicherers, räumlicher Geltungsbereich des Versicherungsschutzes]</span></p>
+
+    <h2>Außergerichtliche Streitschlichtung</h2>
+    <p>Bei Streitigkeiten zwischen Rechtsanwälten und ihren Auftraggebern besteht auf Antrag die Möglichkeit der außergerichtlichen Streitschlichtung bei der zuständigen Rechtsanwaltskammer (§ 73 Abs. 2 Nr. 3 in Verbindung mit § 73 Abs. 5 BRAO) oder bei der Schlichtungsstelle der Rechtsanwaltschaft (§ 191f BRAO) bei der Bundesrechtsanwaltskammer.</p>
+    <p>Teilnahme an Verfahren vor einer Verbraucherschlichtungsstelle (§ 36 VSBG): <span class="ph">[bereit / nicht bereit, bitte festlegen]</span></p>
+
+    <h2>Haftung für Inhalte</h2>
+    <p>Die Informationen auf dieser Website sind allgemeiner Natur und ersetzen keine Rechtsberatung im Einzelfall. Durch die Nutzung der Website oder des Fristrechners kommt kein Mandatsverhältnis zustande.</p>
+  </div>
+  </section>
+
+  <section class="legal legal-page legal-inline" id="datenschutz">
+  <div class="wrap">
+    <h2 class="legal-h1">Datenschutz</h2>
+    <p class="lead">Diese Website kommt ohne Cookies, ohne Tracking und ohne Inhalte von Drittanbietern aus. Schriften und Programmcode liegen auf dem eigenen Server. Im Browser wird nichts gespeichert.</p>
+
+    <h2>Verantwortlicher</h2>
+    <address>Rechtsanwalt Klaus-Rainer Tietmann<br>Werkstraße 209<br>19061 Schwerin<br><a href="mailto:ra-tietmann-sn@t-online.de">ra-tietmann-sn@t-online.de</a></address>
+
+    <h2>Aufruf der Website</h2>
+    <p>Beim Aufruf verarbeitet der Server des Hosting-Anbieters technische Angaben, die Ihr Browser übermittelt: IP-Adresse, Datum und Uhrzeit, aufgerufene Seite, Browser und Betriebssystem. Das ist nötig, um die Website sicher auszuliefern (Art. 6 Abs. 1 lit. f DSGVO).</p>
+    <p><span class="ph">[Name und Sitz des Hosting-Anbieters, Speicherdauer der Protokolle, Hinweis auf den Auftragsverarbeitungsvertrag]</span></p>
+
+    <h2>Kontakt per Telefon, E-Mail und Formular</h2>
+    <p>Wenn Sie anrufen, schreiben oder das Formular nutzen, werden Ihre Angaben verarbeitet, um Ihre Anfrage zu beantworten und ein Mandat anzubahnen (Art. 6 Abs. 1 lit. b DSGVO).</p>
+    <p><span class="ph">[Für den Livebetrieb beschreiben: wie das Formular die Daten überträgt (verschlüsselt), wohin, wie lange sie gespeichert werden und wie hochgeladene Unterlagen behandelt werden. Im Entwurf überträgt das Formular nichts.]</span></p>
+    <p>Kommt ein Mandat zustande, gelten die gesetzlichen Aufbewahrungsfristen, insbesondere für Handakten (§ 50 BRAO). Andernfalls werden Anfragen gelöscht, sobald sie erledigt sind.</p>
+
+    <h2>Fristrechner</h2>
+    <p>Der Rechner für die Klagefrist rechnet ausschließlich in Ihrem Browser. Das eingegebene Datum wird nicht übertragen und nicht gespeichert.</p>
+
+    <h2>Verschwiegenheit</h2>
+    <p>Als Rechtsanwalt unterliege ich der beruflichen Verschwiegenheitspflicht (§ 43a Abs. 2 BRAO, § 203 StGB).</p>
+
+    <h2>Ihre Rechte</h2>
+    <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch (Art. 15 bis 21 DSGVO). Eine formlose Nachricht an die oben genannte Adresse genügt.</p>
+    <p>Sie können sich außerdem bei einer Datenschutz-Aufsichtsbehörde beschweren. Für Mecklenburg-Vorpommern ist das der Landesbeauftragte für Datenschutz und Informationsfreiheit Mecklenburg-Vorpommern in Schwerin.</p>
+
+    <h2>Stand</h2>
+    <p>Entwurf, November 2026</p>
+  </div>
+  </section>
 
 </main>
 
@@ -797,7 +866,7 @@ summary:hover{color:var(--accent-text)}
     <div class="fgrid">
       <div><h4>Rechtsanwalt Tietmann</h4><p>Werkstraße 209 · 19061 Schwerin<br><a href="tel:+49385616225">0385 61 62 25</a> · <a href="mailto:ra-tietmann-sn@t-online.de">ra-tietmann-sn@t-online.de</a></p></div>
       <div><h4>Rechtsgebiete</h4><ul><li><a href="#story">Verkehrsrecht</a></li><li><a href="#story">Bau- und Architektenrecht</a></li><li><a href="#story">Bank- und Kapitalmarktrecht</a></li><li><a href="#story">Versicherungsrecht</a></li><li><a href="#story">Verwaltungsrecht</a></li><li><a href="#kuendigung">Arbeitsrecht</a></li></ul></div>
-      <div><h4>Rechtliches</h4><ul><li>Impressum <span class="ph ph-short">[folgt]</span></li><li>Datenschutzerklärung <span class="ph ph-short">[folgt]</span></li><li>Berufsrechtliche Angaben <span class="ph">[Kammer, Berufshaftpflicht]</span></li></ul></div>
+      <div><h4>Rechtliches</h4><ul><li><a href="#impressum">Impressum</a> <span class="ph ph-short">[Entwurf]</span></li><li><a href="#datenschutz">Datenschutz</a> <span class="ph ph-short">[Entwurf]</span></li><li>Berufsrechtliche Angaben <span class="ph">[Kammer, Berufshaftpflicht]</span></li></ul></div>
     </div>
     <p class="fine">Design-Entwurf zur Abstimmung. Angaben nach öffentlichem Kanzleiprofil; markierte Stellen sind Platzhalter und vom Kanzleiinhaber noch nicht freigegeben.</p>
   </div>

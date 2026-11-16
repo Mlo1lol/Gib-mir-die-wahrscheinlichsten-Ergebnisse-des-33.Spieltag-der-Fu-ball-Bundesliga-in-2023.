@@ -66,8 +66,8 @@ html.lenis body {
   --ink-2: #545e5a;
   --rule: #dcd5c8;
   --rule-dark: #2a3a3c;
-  --brick: #a3432b;
-  --brick-deep: #84321e;
+  --brick: #96391f;
+  --brick-deep: #7a2c17;
   --brick-glow: #e79b7c;
   --gold: #e8c48c;
 
@@ -740,6 +740,15 @@ body.menu-open { overflow: hidden; }
   .zoom-copy { opacity: 1; transform: none; }
 }
 
+/* Barrierefreiheit (WCAG 2.1 AA): Kontrast und Tastatur */
+.nav-bar { background: rgb(11 19 20 / 0.9); }
+.brand span { color: rgb(243 239 232 / 0.85); }
+.ev.is-past { opacity: 1; }
+.ev.is-past .ev-day, .ev.is-past .ev-what, .ev.is-past[data-k="ust"] .ev-day { color: var(--ink-2); font-weight: 400; text-decoration: line-through; text-decoration-color: var(--rule); }
+.ev.is-past .ev-what small { text-decoration: none; display: block; color: var(--ink-2); }
+.month.is-now .ev.is-past .ev-day, .month.is-now .ev.is-past .ev-what, .month.is-now .ev.is-past[data-k="ust"] .ev-day, .month.is-now .ev.is-past .ev-what small { color: var(--moon-2); text-decoration-color: var(--rule-dark); }
+.rail:focus-visible { outline: 2px solid var(--brick); outline-offset: -2px; }
+
 </style>
   <script type="application/ld+json">
   {
@@ -761,7 +770,7 @@ body.menu-open { overflow: hidden; }
     "founder": { "@type": "Person", "name": "Dietmar Koop", "jobTitle": "Steuerberater" }
   }
   </script>
-<style>.legal-inline{padding:clamp(72px,9vw,120px) 0;border-top:1px solid var(--rule)}.legal-inline .legal-h1{font-size:clamp(2.4rem,5vw,3.6rem);margin:0}</style>
+<style>.legal-inline{padding:clamp(72px,9vw,120px) 0;border-top:1px solid rgba(128,128,128,.3)}.legal-inline .legal-h1{font-size:clamp(2.4rem,5vw,3.6rem);margin:0 0 .4em}.legal-inline h2:not(.legal-h1){font-size:1.5rem;margin:44px 0 10px}.legal-inline p,.legal-inline ul,.legal-inline address{max-width:68ch}.legal-inline address{font-style:normal;margin-bottom:1em}</style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -777,13 +786,13 @@ body.menu-open { overflow: hidden; }
   <div class="loader-mark"><span>K</span><span>o</span><span>o</span><span>p</span><span class="dot">.</span></div>
   <div class="loader-line"><i></i></div>
 </div>
-<script>try{if(sessionStorage.getItem("koop-intro")||matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("no-intro");}catch(e){}</script>
+<script>if(matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("no-intro");</script>
 
 <a class="skip" href="#inhalt">Zum Inhalt springen</a>
 
 <header class="nav-bar">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="Koop Steuerberatung, zum Seitenanfang"><b>Koop<i>.</i></b><span>Steuerberatung Schwerin</span></a>
+    <a class="brand" href="#top"><b>Koop<i>.</i></b><span>Steuerberatung Schwerin</span></a>
     <nav class="nav-links" aria-label="Hauptmenü">
       <a href="#leistungen">Leistungen</a>
       <a href="#bau">Bau</a>
@@ -995,7 +1004,7 @@ body.menu-open { overflow: hidden; }
       </div>
     </div>
     <div class="rail-wrap" data-reveal>
-      <ul class="rail" aria-label="Mandantengruppen">
+      <ul class="rail" aria-label="Mandantengruppen" tabindex="0">
         <li class="card card-1"><div><small>Bau</small><h3>Bauwirtschaft</h3></div><p>Bauhaupt- und Nebengewerke, Bauträger und Planer. Baulohn, Abschlagsrechnungen und Finanzierung inklusive.</p></li>
         <li class="card card-2"><div><small>Praxis und Kanzlei</small><h3>Freie Berufe</h3></div><p>Ärztinnen und Zahnärzte, Rechtsanwälte, Architektinnen und Berater, ob in Einzelpraxis oder Gemeinschaft.</p></li>
         <li class="card card-3"><div><small>Service</small><h3>Dienstleister und Gastronomie</h3></div><p>Vermittlungsagenturen, Restaurants, Versicherungsbüros und Unternehmensberatungen.</p></li>
@@ -1152,7 +1161,7 @@ body.menu-open { overflow: hidden; }
     </div>
   </section>
 
-  <section class="legal-page legal-inline" id="impressum">
+  <section class="legal legal-page legal-inline" id="impressum">
   <div class="wrap">
     <h2 class="legal-h1">Impressum</h2>
     <p class="intro">Angaben nach § 5 Digitale-Dienste-Gesetz und der Dienstleistungs-Informationspflichten-Verordnung.</p>
@@ -1198,10 +1207,10 @@ body.menu-open { overflow: hidden; }
   </div>
   </section>
 
-  <section class="legal-page legal-inline" id="datenschutz">
+  <section class="legal legal-page legal-inline" id="datenschutz">
   <div class="wrap">
     <h2 class="legal-h1">Datenschutz</h2>
-    <p class="intro">Diese Website kommt ohne Cookies, ohne Tracking und ohne Inhalte von Google oder anderen Drittanbietern aus. Schriften und Programmcode liegen auf unserem eigenen Server.</p>
+    <p class="intro">Diese Website kommt ohne Cookies, ohne Tracking und ohne Inhalte von Google oder anderen Drittanbietern aus. Sie speichert auch sonst nichts in Ihrem Browser. Schriften und Programmcode liegen auf unserem eigenen Server.</p>
 
     <h2>Verantwortlicher</h2>
     <address>Dietmar Koop Steuerberatung<br>Dietmar Koop<br>Neu Pampow 9a<br>19061 Schwerin<br><a href="mailto:info@steuerberatung-koop.de">info@steuerberatung-koop.de</a></address>
@@ -1633,7 +1642,7 @@ body.menu-open { overflow: hidden; }
   if (loader && !root.classList.contains("no-intro") && hasG) {
     root.classList.add("is-loading");
     if (lenis) lenis.stop();
-    G.timeline({ defaults: { ease: "expo.out" }, onComplete: function () { loader.remove(); if (lenis) lenis.start(); try { sessionStorage.setItem("koop-intro", "1"); } catch (e) {} } })
+    G.timeline({ defaults: { ease: "expo.out" }, onComplete: function () { loader.remove(); if (lenis) lenis.start(); } })
       .from(".loader-mark span", { yPercent: 110, duration: 0.9, stagger: 0.05 })
       .to(".loader-line i", { scaleX: 1, duration: 0.8, ease: "power2.inOut" }, 0.15)
       .to(".loader-mark span", { yPercent: -110, duration: 0.6, stagger: 0.03, ease: "expo.in" }, 1.0)

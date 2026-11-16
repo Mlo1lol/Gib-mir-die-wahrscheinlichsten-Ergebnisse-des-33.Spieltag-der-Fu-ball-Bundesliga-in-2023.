@@ -1,0 +1,4 @@
+Schriften in diesem Ordner: SIL Open Font License 1.1 (https://openfontlicense.org)
+- Newsreader: Copyright 2020 The Newsreader Project Authors (github.com/productiontype/Newsreader)
+- Hanken Grotesk: Copyright The Hanken Grotesk Project Authors (github.com/marcologous/hanken-grotesk)
+- Source Sans 3: Copyright 2010-2023 Adobe (github.com/adobe-fonts/source-sans)

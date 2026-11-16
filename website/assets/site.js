@@ -338,7 +338,7 @@
   if (loader && !root.classList.contains("no-intro") && hasG) {
     root.classList.add("is-loading");
     if (lenis) lenis.stop();
-    G.timeline({ defaults: { ease: "expo.out" }, onComplete: function () { loader.remove(); if (lenis) lenis.start(); try { sessionStorage.setItem("koop-intro", "1"); } catch (e) {} } })
+    G.timeline({ defaults: { ease: "expo.out" }, onComplete: function () { loader.remove(); if (lenis) lenis.start(); } })
       .from(".loader-mark span", { yPercent: 110, duration: 0.9, stagger: 0.05 })
       .to(".loader-line i", { scaleX: 1, duration: 0.8, ease: "power2.inOut" }, 0.15)
       .to(".loader-mark span", { yPercent: -110, duration: 0.6, stagger: 0.03, ease: "expo.in" }, 1.0)

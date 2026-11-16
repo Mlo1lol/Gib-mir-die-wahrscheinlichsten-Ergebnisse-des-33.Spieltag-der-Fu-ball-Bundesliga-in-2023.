@@ -25,13 +25,15 @@ def bundle(root, out, extra=None):
     if extra: html = extra(html)
     left = re.findall(r'(?:src|href)="(assets/[^"]+)', html); assert not left, left[:5]
     open(out, 'w').write(html); print(out, round(len(html) / 1048576, 2), 'MB')
-def koop_legal(html):
-    def legal(f, id):
-        t = open('website/' + f).read(); body = t[t.index('<div class="wrap">\n', t.index('<main')) + 19:t.index('  </div>\n</main>')]
-        body = body.replace('<h1>', '<h2 class="legal-h1">', 1).replace('</h1>', '</h2>', 1)
-        return f'\n  <section class="legal-page legal-inline" id="{id}">\n  <div class="wrap">\n{body}  </div>\n  </section>\n'
-    html = html.replace('\n</main>', legal('impressum.html', 'impressum') + legal('datenschutz.html', 'datenschutz') + '\n</main>')
-    html = html.replace('href="impressum.html"', 'href="#impressum"').replace('href="datenschutz.html"', 'href="#datenschutz"')
-    return html.replace('</head>', '<style>.legal-inline{padding:clamp(72px,9vw,120px) 0;border-top:1px solid var(--rule)}.legal-inline .legal-h1{font-size:clamp(2.4rem,5vw,3.6rem);margin:0}</style>\n</head>', 1)
-bundle('website/', 'koop-website-komplett.html', koop_legal)
-bundle('tietmann/', 'tietmann-website-komplett.html')
+def with_legal(root):
+    def fn(html):
+        def legal(f, id):
+            t = open(root + f).read(); body = t[t.index('<div class="wrap">\n', t.index('<main')) + 19:t.index('  </div>\n</main>')]
+            body = body.replace('<h1>', '<h2 class="legal-h1">', 1).replace('</h1>', '</h2>', 1)
+            return f'\n  <section class="legal legal-page legal-inline" id="{id}">\n  <div class="wrap">\n{body}  </div>\n  </section>\n'
+        html = html.replace('\n</main>', legal('impressum.html', 'impressum') + legal('datenschutz.html', 'datenschutz') + '\n</main>')
+        html = html.replace('href="impressum.html"', 'href="#impressum"').replace('href="datenschutz.html"', 'href="#datenschutz"')
+        return html.replace('</head>', '<style>.legal-inline{padding:clamp(72px,9vw,120px) 0;border-top:1px solid rgba(128,128,128,.3)}.legal-inline .legal-h1{font-size:clamp(2.4rem,5vw,3.6rem);margin:0 0 .4em}.legal-inline h2:not(.legal-h1){font-size:1.5rem;margin:44px 0 10px}.legal-inline p,.legal-inline ul,.legal-inline address{max-width:68ch}.legal-inline address{font-style:normal;margin-bottom:1em}</style>\n</head>', 1)
+    return fn
+bundle('website/', 'koop-website-komplett.html', with_legal('website/'))
+bundle('tietmann/', 'tietmann-website-komplett.html', with_legal('tietmann/'))

@@ -20,8 +20,8 @@
   --ink-2: #545e5a;
   --rule: #dcd5c8;
   --rule-dark: #2a3a3c;
-  --brick: #a3432b;
-  --brick-deep: #84321e;
+  --brick: #96391f;
+  --brick-deep: #7a2c17;
   --brick-glow: #e79b7c;
   --gold: #e8c48c;
 
@@ -693,3 +693,12 @@ body.menu-open { overflow: hidden; }
   .zoom-frame { position: relative; left: auto; top: auto; transform: none; width: 100%; height: 80vh; border-radius: 0; }
   .zoom-copy { opacity: 1; transform: none; }
 }
+
+/* Barrierefreiheit (WCAG 2.1 AA): Kontrast und Tastatur */
+.nav-bar { background: rgb(11 19 20 / 0.9); }
+.brand span { color: rgb(243 239 232 / 0.85); }
+.ev.is-past { opacity: 1; }
+.ev.is-past .ev-day, .ev.is-past .ev-what, .ev.is-past[data-k="ust"] .ev-day { color: var(--ink-2); font-weight: 400; text-decoration: line-through; text-decoration-color: var(--rule); }
+.ev.is-past .ev-what small { text-decoration: none; display: block; color: var(--ink-2); }
+.month.is-now .ev.is-past .ev-day, .month.is-now .ev.is-past .ev-what, .month.is-now .ev.is-past[data-k="ust"] .ev-day, .month.is-now .ev.is-past .ev-what small { color: var(--moon-2); text-decoration-color: var(--rule-dark); }
+.rail:focus-visible { outline: 2px solid var(--brick); outline-offset: -2px; }
