@@ -7,7 +7,7 @@
      3. die Seite seitlich scrollt,
      4. die Konsole Fehler meldet oder eine Datei nicht lädt,
      5. eine Anfrage an einen fremden Server geht (DSGVO),
-     6. Inhalt nach dem Durchscrollen unsichtbar bleibt.
+     6. ein Inhalt während des gesamten Durchlaufs nie sichtbar war.
    Zusätzlich: derselbe Lauf mit "Bewegung reduzieren". */
 const { chromium } = require('playwright');
 const http = require('http'), fs = require('fs'), path = require('path');
@@ -26,7 +26,10 @@ function serve(dir) {
     r.writeHead(200, { 'content-type': MIME[f.split('.').pop()] || 'application/octet-stream' }); fs.createReadStream(f).pipe(r);
   }).listen(0, '127.0.0.1', () => res(s)); });
 }
+const MARK = () => { window.__seen = window.__seen || new Set(); const vh = innerHeight;
+  document.querySelectorAll('main h2, main h3, main p, main li, main form, main img').forEach(e => { if (window.__seen.has(e)) return; const b = e.getBoundingClientRect(); if (!b.height || b.bottom < 0 || b.top > vh) return; let o = 1, n = e; while (n && n !== document.body) { const cs = getComputedStyle(n); if (cs.visibility === 'hidden') { o = 0; break; } o *= +cs.opacity; n = n.parentElement; } if (o >= 0.5) window.__seen.add(e); }); };
 async function walk(page, w, h) {
+  await page.evaluate(MARK);
   await page.mouse.move(w / 2, h / 2);
   const empties = []; let last = -1, stuck = 0;
   for (let i = 0; i < 600; i++) {
@@ -40,6 +43,7 @@ async function walk(page, w, h) {
       });
       return { y: Math.round(scrollY), cover: area / (vw * vh), max: document.documentElement.scrollHeight - vh };
     });
+    await page.evaluate(MARK);
     if (r.cover < 0.04) empties.push(r.y);
     if (r.y === last) { if (++stuck > 3) break; } else stuck = 0; last = r.y;
     if (r.y >= r.max - 2) break;
@@ -68,15 +72,15 @@ async function walk(page, w, h) {
           const pins = (window.ScrollTrigger ? ScrollTrigger.getAll() : []).filter(t => t.pin && String(t.vars.start).startsWith('top top')).map(t => {
             const sp = t.pin.closest('.pin-spacer') || t.pin; return { n: t.pin.className.split(' ')[0], d: Math.abs(Math.round(t.start - (sp.getBoundingClientRect().top + scrollY))) }; }).filter(p => p.d > 4);
           const order = (window.ScrollTrigger ? ScrollTrigger.getAll() : []).filter(t => t.pin).map(t => t.start); const sorted = order.every((v, i) => !i || v >= order[i - 1]);
-          const hidden = [...document.querySelectorAll('main h2, main h3, main p, main li, main form, main img')].filter(e => { const b = e.getBoundingClientRect(); if (!b.height || e.closest('[hidden],.scard,.err,.ok,svg,.field-error,.form-status,.live,output,.ring-wrap')) return false; let o = 1, n = e; while (n && n !== document.body) { o *= +getComputedStyle(n).opacity; n = n.parentElement; } return o < 0.05; }).length;
-          return { over: de.scrollWidth - W, pins, sorted, hidden, loader: !!document.querySelector('.loader') };
+          const never = [...document.querySelectorAll('main h2, main h3, main p, main li, main form, main img')].filter(e => e.getBoundingClientRect().height && !e.closest('[hidden],.err,.ok,.field-error,.form-status,.live,output,.ring-wrap,.month-empty') && !window.__seen.has(e)).map(e => (e.textContent || e.alt || e.tagName).trim().slice(0, 32));
+          return { over: de.scrollWidth - W, pins, sorted, never, loader: !!document.querySelector('.loader') };
         });
         const problems = [];
         if (empties.length) problems.push(`LEERLAUF bei scrollY ${empties.slice(0, 6).join(', ')}`);
         if (r.pins.length) problems.push('Pin verschoben: ' + r.pins.map(p => `${p.n} um ${p.d}px`).join(', '));
         if (!r.sorted) problems.push('Pins nicht in Seitenreihenfolge');
         if (r.over > 1) problems.push(`seitliches Scrollen ${r.over}px`);
-        if (r.hidden) problems.push(`${r.hidden} Elemente bleiben unsichtbar`);
+        if (r.never.length) problems.push(`${r.never.length} Elemente waren nie sichtbar: ` + r.never.slice(0, 4).map(t => '"' + t + '"').join(', '));
         if (r.loader) problems.push('Vorspann nicht entfernt');
         if (errs.length) problems.push(...errs.slice(0, 3));
         if (ext.length) problems.push('Fremdanfrage: ' + ext[0]);
