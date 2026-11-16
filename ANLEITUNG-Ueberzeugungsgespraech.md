@@ -97,12 +97,17 @@ Lass ihn reden. Jede Antwort ist dein Aufhänger für einen Beweis aus Abschnitt
 Fang mit **Datenschutz** an (Risiko), dann **Fehler** (PLZ, Mitarbeiterzahl), dann **Technik**. Zeig auf das Papier, nicht auf Bildschirme voller Code.
 
 **4. Die neue Seite zeigen (5 Minuten)**
-Fang auf dem Handy an. Zeig in dieser Reihenfolge:
-- Den **Fristen-Zettel** oben: Er berechnet die nächsten Steuertermine automatisch, mit Feiertagen in Mecklenburg-Vorpommern, und zeigt die Abgabefrist mit Steuerberater (aktuell 1. März 2027 für 2025). So etwas bietet die Konkurrenz selten, und es passt zu einem Zahlenmenschen.
-- Den **Bau-Abschnitt**: seine Geschichte als Alleinstellungsmerkmal.
-- Das **Team mit Werdegang**: alles aus seinen eigenen Texten, nichts erfunden.
+Fang auf dem Handy an und **scroll langsam**. Die Seite ist auf Wirkung beim Scrollen gebaut, ähnlich wie apple.com. Zeig in dieser Reihenfolge:
+- Den **Einstieg**: das Schweriner Schloss zur blauen Stunde, das beim Scrollen zurückzoomt. Ein Bild der eigenen Stadt statt Stockfoto mit Wegweisern.
+- Den **Satz, der sich Wort für Wort füllt**: „Wir machen Ihre Steuern … und wir rechnen mit.“ Das ist seine Arbeitsweise in einem Satz.
+- Den **Fristen-Zettel**, der sich beim Scrollen aufrichtet: Er berechnet die nächsten Steuertermine automatisch, mit Feiertagen in Mecklenburg-Vorpommern, und zeigt die Abgabefrist mit Steuerberater (aktuell 1. März 2027 für 2025). Das passt zu einem Zahlenmenschen.
+- Den **Bau-Abschnitt** mit den hochzählenden Zahlen (1998, 10 Jahre, rund 400 Beschäftigte): seine Geschichte als Alleinstellungsmerkmal.
+- Das **Luftbild der Schlossinsel**, das sich auf volle Breite öffnet: „Für Mandanten in ganz Westmecklenburg.“
+- Das **Team mit Werdegang und seinen eigenen Fotos**: alles aus seinen Texten, nichts erfunden.
 - Den **Kontaktbereich**: Telefonnummer zum Antippen und die Anzeige, ob das Büro gerade besetzt ist.
-- **Datenschutz**: keine Cookies, kein Google, kein Tracking. Die Schriften liegen auf dem eigenen Server.
+- **Datenschutz**: keine Cookies, kein Google, kein Tracking. Schriften und Bilder liegen auf dem eigenen Server.
+
+Wichtig für ihn als vorsichtigen Menschen: Wer auf dem Handy oder Computer „Bewegung reduzieren“ eingestellt hat, sieht dieselbe Seite ruhig und ohne Animationen.
 
 Sag ausdrücklich: **„Die Texte sind Ihre. Ich habe nur sortiert und Fehler korrigiert.“** Das nimmt die Angst vor Werbesprache.
 
@@ -124,7 +129,7 @@ Dann eine konkrete, kleine Frage stellen, keine große:
 | „Ich habe keine Zeit dafür.“ | „Sie müssen nichts schreiben. Die Seite ist fertig, mit Ihren Texten. Sie lesen einmal 15 Minuten Korrektur.“ |
 | „Meine Mandanten kommen über Empfehlung.“ | „Genau die googeln Ihren Namen, bevor sie anrufen. Dann ist die Website der erste Eindruck.“ |
 | „Ich will nicht so werblich wirken.“ | „Schauen Sie selbst: keine Werbesprüche, keine Bilder von lachenden Menschen am Laptop. Sachlich, ruhig, Ihre Fakten.“ |
-| „Wer pflegt das dann?“ | „Die neue Seite ist einfacher als die alte: keine Datenbank, kein WordPress, keine Plugins, die man ständig aktualisieren muss. Weniger Wartung als heute.“ |
+| „Wer pflegt das dann?“ | „Die neue Seite ist einfacher als die alte: keine Datenbank, kein WordPress, keine Plugins, keine Fremdbibliotheken, die man ständig aktualisieren muss. Die Animationen sind ein paar Zeilen eigener Code. Weniger Wartung als heute.“ |
 | „Was ist mit den News und Merkblättern?“ | „Die bleiben. Den News-Dienst, den Sie heute nutzen, binde ich in die neue Seite ein.“ (Das ist noch zu tun, siehe Abschnitt 6.) |
 | „Ich überlege es mir.“ | „Gern. Darf ich Ihnen den Testlink trotzdem schicken? Dann überlegen Sie anhand der echten Seite.“ |
 
@@ -138,7 +143,7 @@ Damit du im Gespräch nichts versprichst, was nicht stimmt:
 - **Datenschutz:** Namen und Sitz des Hosting-Anbieters eintragen. Am besten lässt Herr Koop beide Texte kurz von seiner Kammer oder einem Datenschutz-Dienst prüfen.
 - **Team:** Wie viele Personen arbeiten heute wirklich in der Kanzlei? Die Seite übernimmt die vier Namen von der Team-Seite, die Startseite sagt aber „3 Mitarbeiterinnen“.
 - **Ablauf-Abschnitt:** Bestätigen lassen, dass die Kanzlei den Wechsel vom alten Berater übernimmt und Daten per Vollmacht beim Finanzamt abruft. Das ist üblich, steht aber nicht auf der alten Seite.
-- **Fotos:** Die neue Seite kommt ohne Fotos aus, weil ich die Bilder der alten Seite nicht laden konnte. **Ein halber Tag mit einer Fotografin oder einem Fotografen aus Schwerin** (Porträts vom Team, das Büro, das Gebäude von außen) macht die Seite deutlich persönlicher. Gute Gelegenheit, ihn mit einzubeziehen: Wer will, kommt aufs Foto.
+- **Fotos:** Die Teamfotos stammen von der alten Seite und sind nur 200 Pixel groß. Auf der neuen Seite stehen sie deshalb klein und in Schwarz-Weiß. Von Frau Lübbe und Frau Grube gibt es keine Fotos, dort stehen Initialen. **Ein halber Tag mit einer Fotografin oder einem Fotografen aus Schwerin** (Porträts vom Team, das Büro, das Gebäude von außen) hebt die Seite noch einmal deutlich. Gute Gelegenheit, ihn mit einzubeziehen. Die Stadtfotos (Schloss, Dom, Schlossinsel) stammen von Wikimedia Commons und sind mit Namen und Lizenz im Fuß der Seite und im Impressum genannt, so wie es die Lizenz verlangt.
 - **News, Videos, Merkblätter:** Die alte Seite hat dafür eigene Unterseiten mit einem externen Nachrichtendienst. Die neue Seite hat sie noch nicht. Vor dem Umschalten einbinden oder verlinken.
 - **Kontaktformular:** Es öffnet derzeit eine fertige E-Mail im E-Mail-Programm des Besuchers. Wenn er lieber ein Formular will, das direkt sendet, braucht es ein kleines Skript beim Hoster.
 - **Fristen-Zettel:** Die Berechnung ist im Browser getestet (z. B. Gewerbesteuer am 16.11.2026, weil der 15. ein Sonntag ist; Sozialversicherung Dezember 2025 am 23.12.). Herr Koop sollte die Termine trotzdem einmal fachlich abnicken. Das ist auch ein guter Moment, ihn mitreden zu lassen.
@@ -150,7 +155,7 @@ Damit du im Gespräch nichts versprichst, was nicht stimmt:
 1. Loben, nicht kritisieren.
 2. Fragen stellen: Mandanten, Mitarbeiter, Abmahnung.
 3. Beweise auf Papier: Schweizer Datenschutz, Google, PLZ, Technik von 2010.
-4. Neue Seite auf dem Handy: Fristen, Bau, Team, Datenschutz ohne Google.
+4. Neue Seite auf dem Handy, langsam scrollen: Schloss, Fristen, Bau-Zahlen, Schlossinsel, Team.
 5. „Ihre Texte, nur sortiert.“
 6. Rechnung: ein Mandat bezahlt die Seite.
 7. Kleines Ja holen: „Darf ich Ihnen den Testlink schicken?“
