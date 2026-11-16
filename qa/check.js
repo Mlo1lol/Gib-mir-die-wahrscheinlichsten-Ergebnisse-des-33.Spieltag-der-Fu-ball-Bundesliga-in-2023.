@@ -70,8 +70,14 @@ async function walk(page, w, h) {
         const SEL = 'main h2, main h3, main p, main li, main form, main img', SKIP = '[hidden],.scard,.err,.ok,.field-error,.form-status,.live,output,.ring-wrap,.month-empty';
         const pending = await page.evaluate(([SEL, SKIP]) => { const all = [...document.querySelectorAll(SEL)]; return all.map((e, i) => (e.getBoundingClientRect().height && !e.closest(SKIP) && !window.__seen.has(e)) ? i : -1).filter(i => i >= 0); }, [SEL, SKIP]);
         for (const i of pending.slice(0, 60)) {
-          await page.evaluate(([SEL, i]) => document.querySelectorAll(SEL)[i].scrollIntoView({ block: 'center', behavior: 'instant' }), [SEL, i]);
-          await page.mouse.wheel(0, 2); await page.waitForTimeout(1300); await page.evaluate(MARK);
+          // Mit dem Mausrad hinfahren (kein Sprung: der würde mit dem weichen Scrollen kollidieren)
+          for (let k = 0; k < 120; k++) {
+            const pos = await page.evaluate(([SEL, i]) => { const b = document.querySelectorAll(SEL)[i].getBoundingClientRect(); return { mid: b.top + Math.min(b.height, innerHeight) / 2, vh: innerHeight, seen: window.__seen.has(document.querySelectorAll(SEL)[i]) }; }, [SEL, i]);
+            if (pos.seen) break;
+            const off = pos.mid - pos.vh * 0.5;
+            if (Math.abs(off) < pos.vh * 0.2) { await page.waitForTimeout(1300); await page.evaluate(MARK); break; }
+            await page.mouse.wheel(0, Math.max(-pos.vh * 0.6, Math.min(pos.vh * 0.6, off))); await page.waitForTimeout(240); await page.evaluate(MARK);
+          }
         }
         await page.waitForTimeout(300);
         const r = await page.evaluate(() => {
