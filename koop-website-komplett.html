@@ -725,6 +725,13 @@ body.menu-open { overflow: hidden; }
 .loader { animation: loader-safety 0.3s 5s forwards; }
 @keyframes loader-safety { to { opacity: 0; visibility: hidden; } }
 
+/* Steuerjahr-Bühne: Zähler steht mit im gepinnten Bereich, damit der Bildschirm gefüllt ist */
+.year-pin .year-sum { margin-top: 0; padding-top: 0; border-top: 0; padding-bottom: 28px; }
+.year-pin .year-progress { position: relative; left: auto; right: auto; margin-inline: var(--gutter); }
+.year-pin .year-track { padding-top: 28px; }
+@media (min-width: 1300px) { .year-pin .year-progress { margin-inline: calc((100vw - var(--wrap)) / 2); } }
+@media (min-width: 901px) { .month { min-height: min(440px, 52vh); } }
+
 </style>
   <script type="application/ld+json">
   {
@@ -746,6 +753,7 @@ body.menu-open { overflow: hidden; }
     "founder": { "@type": "Person", "name": "Dietmar Koop", "jobTitle": "Steuerberater" }
   }
   </script>
+<style>.legal-inline{padding:clamp(72px,9vw,120px) 0;border-top:1px solid var(--rule)}.legal-inline .legal-h1{font-size:clamp(2.4rem,5vw,3.6rem);margin:0}</style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -849,12 +857,14 @@ body.menu-open { overflow: hidden; }
           <label class="switch" data-vat><input type="checkbox" name="quarterly"><span class="track" aria-hidden="true"></span><span>Umsatzsteuer vierteljährlich</span></label>
         </div>
       </form>
-      <div class="year-sum" aria-live="polite">
-        <strong class="tnum" data-total>0</strong>
-        <span><b data-total-word>Termine</b> in den nächsten zwölf Monaten. Wir behalten jeden davon im Blick.</span>
-      </div>
     </div>
     <div class="year-pin">
+      <div class="wrap">
+        <div class="year-sum" aria-live="polite">
+          <strong class="tnum" data-total>0</strong>
+          <span><b data-total-word>Termine</b> in den nächsten zwölf Monaten. Wir behalten jeden davon im Blick.</span>
+        </div>
+      </div>
       <div class="year-progress" aria-hidden="true"><span></span></div>
       <ol class="year-track" data-year aria-label="Steuertermine der nächsten zwölf Monate"></ol>
     </div>
@@ -1639,18 +1649,21 @@ body.menu-open { overflow: hidden; }
   if (hasG && !reduce) {
     var mm = G.matchMedia();
     mm.add("(min-width: 901px)", function () {
-      var track = document.querySelector(".h-track"), sec = document.querySelector(".hscroll");
-      if (track && sec) {
-        G.to(track, { x: function () { return -(track.scrollWidth - window.innerWidth); }, ease: "none",
-          scrollTrigger: { trigger: sec, start: "top top", end: function () { return "+=" + (track.scrollWidth - window.innerWidth); }, pin: true, scrub: 0.8, invalidateOnRefresh: true, anticipatePin: 1 } });
-      }
+      // WICHTIG: gepinnte Kapitel in Seitenreihenfolge anlegen (Steuerjahr steht vor Leistungen).
+      // Jeder Pin verlängert die Seite; ein später angelegter Pin weiter oben verschiebt sonst alle darunter.
       var ytrack = document.querySelector(".year-track"), ypin = document.querySelector(".year-pin"), bar = document.querySelector(".year-progress span");
       if (ytrack && ypin) {
         var dist = function () { return Math.max(0, ytrack.scrollWidth - window.innerWidth); };
-        G.timeline({ scrollTrigger: { trigger: ypin, start: "center center", end: function () { return "+=" + dist(); }, pin: true, scrub: 0.8, invalidateOnRefresh: true, anticipatePin: 1 } })
+        G.timeline({ scrollTrigger: { trigger: ypin, start: "center center", end: function () { return "+=" + dist(); }, pin: true, scrub: 0.8, invalidateOnRefresh: true, anticipatePin: 1, refreshPriority: 2 } })
           .to(ytrack, { x: function () { return -dist(); }, ease: "none" }, 0)
           .to(bar, { scaleX: 1, ease: "none" }, 0);
       }
+      var track = document.querySelector(".h-track"), sec = document.querySelector(".hscroll");
+      if (track && sec) {
+        G.to(track, { x: function () { return -(track.scrollWidth - window.innerWidth); }, ease: "none",
+          scrollTrigger: { trigger: sec, start: "top top", end: function () { return "+=" + (track.scrollWidth - window.innerWidth); }, pin: true, scrub: 0.8, invalidateOnRefresh: true, anticipatePin: 1, refreshPriority: 1 } });
+      }
+      ScrollTrigger.sort(); ScrollTrigger.refresh();
     });
   }
 

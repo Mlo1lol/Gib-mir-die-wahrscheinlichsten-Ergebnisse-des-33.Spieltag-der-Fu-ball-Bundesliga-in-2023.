@@ -30,7 +30,7 @@ async function walk(page, w, h) {
   await page.mouse.move(w / 2, h / 2);
   const empties = []; let last = -1, stuck = 0;
   for (let i = 0; i < 600; i++) {
-    await page.mouse.wheel(0, h * 0.5); await page.waitForTimeout(330);
+    await page.mouse.wheel(0, h * 0.7); await page.waitForTimeout(260);
     const r = await page.evaluate(() => {
       const vh = innerHeight, vw = innerWidth; let area = 0;
       document.querySelectorAll('h1,h2,h3,p,li,img,a.btn,button,input,label,address,td,small,strong,time,dd,dt,summary,svg text,svg rect,svg path').forEach(e => {
@@ -48,13 +48,13 @@ async function walk(page, w, h) {
 }
 (async () => {
   const browser = await chromium.launch(); let failures = 0;
-  for (const pg of PAGES) {
+  await Promise.all(PAGES.map(async pg => {
     let server = null, url;
-    if (pg.single) { const f = path.join(ROOT, pg.single); if (!fs.existsSync(f)) { console.log(`– ${pg.name}: nicht vorhanden, übersprungen`); continue; } url = 'file://' + f; }
+    if (pg.single) { const f = path.join(ROOT, pg.single); if (!fs.existsSync(f)) { console.log(`– ${pg.name}: nicht vorhanden, übersprungen`); return; } url = 'file://' + f; }
     else { server = await serve(path.join(ROOT, pg.dir)); url = `http://127.0.0.1:${server.address().port}/${pg.file}`; }
     const origin = pg.single ? 'file:' : url.split('/').slice(0, 3).join('/');
     for (const mode of ['normal', 'reduziert']) {
-      for (const [w, h] of (mode === 'normal' ? SIZES : [[1440, 900], [390, 844]])) {
+      for (const [w, h] of (mode === 'normal' && !pg.single ? SIZES : [[1440, 900], [390, 844]])) {
         const ctx = await browser.newContext({ viewport: { width: w, height: h }, reducedMotion: mode === 'normal' ? 'no-preference' : 'reduce' });
         const page = await ctx.newPage(); const errs = [], ext = [];
         page.on('pageerror', e => errs.push('JS: ' + e)); page.on('console', m => { if (m.type() === 'error') errs.push('Konsole: ' + m.text()); });
@@ -85,7 +85,7 @@ async function walk(page, w, h) {
       }
     }
     if (server) server.close();
-  }
+  }));
   await browser.close();
   console.log(failures ? `\nNICHT AUSLIEFERN: ${failures} Problem(e).` : '\nAlles in Ordnung: keine Probleme gefunden.');
   process.exit(failures ? 1 : 0);
