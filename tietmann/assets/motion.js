@@ -81,11 +81,11 @@
   /* ---------- Ablauf: Linie füllt sich, Schritte leuchten auf ---------- */
   var steps = document.querySelectorAll(".steps li");
   if (steps.length) {
-    G.set(steps, { opacity: 0.35 });
+    G.set(steps, { opacity: 0.45 });
     G.to(".steps-line", {
       scaleX: 1, ease: "none",
-      scrollTrigger: { trigger: ".steps", start: "top 80%", end: "bottom 45%", scrub: 0.6,
-        onUpdate: function (self) { steps.forEach(function (s, i) { G.to(s, { opacity: self.progress >= i / steps.length * 0.92 + 0.02 ? 1 : 0.35, duration: 0.4, overwrite: "auto" }); }); } }
+      scrollTrigger: { trigger: ".steps", start: "top 85%", end: "bottom 88%", scrub: 0.6,
+        onUpdate: function (self) { steps.forEach(function (s, i) { G.to(s, { opacity: self.progress >= i / steps.length * 0.92 + 0.02 ? 1 : 0.45, duration: 0.4, overwrite: "auto" }); }); } }
     });
   }
 

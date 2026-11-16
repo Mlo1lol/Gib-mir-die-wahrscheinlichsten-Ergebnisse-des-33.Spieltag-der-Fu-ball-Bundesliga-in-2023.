@@ -608,7 +608,7 @@ body.menu-open { overflow: hidden; }
 .ev-what { font-size: 0.9375rem; line-height: 1.35; }
 .ev-what small { display: block; margin-top: 3px; font-size: 0.75rem; color: var(--ink-2); }
 .month.is-now .ev-what small { color: var(--moon-2); }
-.ev.is-past { opacity: 0.38; }
+.ev.is-past { opacity: 0.55; }
 .ev[data-k="ust"] .ev-day { color: var(--brick); }
 .month.is-now .ev[data-k="ust"] .ev-day { color: var(--brick-glow); }
 .month-empty { margin-top: 16px; font-size: 0.9375rem; color: var(--ink-2); }

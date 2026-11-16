@@ -66,13 +66,20 @@ async function walk(page, w, h) {
         page.on('request', r => { const u = r.url(); if (!u.startsWith('data:') && !u.startsWith('blob:') && !u.startsWith(origin)) ext.push(u); });
         await page.goto(url, { waitUntil: 'load' }); await page.waitForTimeout(3600);
         const empties = await walk(page, w, h);
-        await page.waitForTimeout(800);
+        // Zweiter Durchgang: jedes noch nie gesehene Element gezielt ansteuern und dort warten.
+        const SEL = 'main h2, main h3, main p, main li, main form, main img', SKIP = '[hidden],.scard,.err,.ok,.field-error,.form-status,.live,output,.ring-wrap,.month-empty';
+        const pending = await page.evaluate(([SEL, SKIP]) => { const all = [...document.querySelectorAll(SEL)]; return all.map((e, i) => (e.getBoundingClientRect().height && !e.closest(SKIP) && !window.__seen.has(e)) ? i : -1).filter(i => i >= 0); }, [SEL, SKIP]);
+        for (const i of pending.slice(0, 60)) {
+          await page.evaluate(([SEL, i]) => document.querySelectorAll(SEL)[i].scrollIntoView({ block: 'center', behavior: 'instant' }), [SEL, i]);
+          await page.mouse.wheel(0, 2); await page.waitForTimeout(1300); await page.evaluate(MARK);
+        }
+        await page.waitForTimeout(300);
         const r = await page.evaluate(() => {
           const de = document.documentElement, W = de.clientWidth;
           const pins = (window.ScrollTrigger ? ScrollTrigger.getAll() : []).filter(t => t.pin && String(t.vars.start).startsWith('top top')).map(t => {
             const sp = t.pin.closest('.pin-spacer') || t.pin; return { n: t.pin.className.split(' ')[0], d: Math.abs(Math.round(t.start - (sp.getBoundingClientRect().top + scrollY))) }; }).filter(p => p.d > 4);
           const order = (window.ScrollTrigger ? ScrollTrigger.getAll() : []).filter(t => t.pin).map(t => t.start); const sorted = order.every((v, i) => !i || v >= order[i - 1]);
-          const never = [...document.querySelectorAll('main h2, main h3, main p, main li, main form, main img')].filter(e => e.getBoundingClientRect().height && !e.closest('[hidden],.err,.ok,.field-error,.form-status,.live,output,.ring-wrap,.month-empty') && !window.__seen.has(e)).map(e => (e.textContent || e.alt || e.tagName).trim().slice(0, 32));
+          const never = [...document.querySelectorAll('main h2, main h3, main p, main li, main form, main img')].filter(e => e.getBoundingClientRect().height && !e.closest('[hidden],.scard,.err,.ok,.field-error,.form-status,.live,output,.ring-wrap,.month-empty') && !window.__seen.has(e)).map(e => (e.textContent || e.alt || e.tagName).trim().slice(0, 32));
           return { over: de.scrollWidth - W, pins, sorted, never, loader: !!document.querySelector('.loader') };
         });
         const problems = [];
