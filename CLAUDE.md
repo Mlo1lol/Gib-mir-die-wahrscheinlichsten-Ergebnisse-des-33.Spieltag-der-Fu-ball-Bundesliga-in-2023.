@@ -35,7 +35,7 @@ halb leerer Bildschirm ist ein Fehler, kein Zwischenzustand.
   stehen im optischen Zentrum; Kapitel-Überschriften stehen oben, nicht mittig.
 - Ein einziges Abstandsmaß für Abschnitte (`--sec-pad` bei Koop, `section{padding:96px 0}` bei Tietmann).
 - Einblendungen starten, sobald der Inhalt unten ins Bild kommt (`top bottom`), nicht erst bei 88 %.
-- In der ruhigen Fassung („Bewegung reduzieren“) sind Bühnen `position: static`, sonst wirken `top`-Werte als Versatz.
+- In der ruhigen Fassung („Bewegung reduzieren“) bekommen Bühnen `top: auto` (sonst wirkt `top` als Versatz) und bleiben `position: relative` (absolut positionierte Bilder brauchen den Rahmen).
 - Keine Hilfsklassen mit allgemeinen Namen (Fehler: `.live` im Formular traf auch `.story.live`).
 - Keine Verbindung zu fremden Servern (keine Google Fonts, keine CDNs). Alles liegt in `assets/`.
 - Inhalte müssen ohne JavaScript und mit „Bewegung reduzieren“ sichtbar bleiben.
