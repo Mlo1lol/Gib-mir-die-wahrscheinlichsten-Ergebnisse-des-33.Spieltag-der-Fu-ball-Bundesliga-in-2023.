@@ -72,4 +72,4 @@ Bevor eine Anleitung auf seinem Rechner etwas installiert, ausführt oder Daten 
 3. Wenn möglich eine Alternative nennen: privates Gerät ohne Firmen-VPN.
 
 Anlass (November 2026): Für einen WLAN-Check wurde Claude Code auf dem Dienstrechner installiert
-und lief im VPN, ohne vorherigen Hinweis. Danach deinstalliert; der Nutzer informiert seine IT.
+und lief im VPN, ohne vorherigen Hinweis. Danach vollständig deinstalliert.
