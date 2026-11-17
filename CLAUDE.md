@@ -11,9 +11,11 @@ Nach **jeder** Änderung an HTML, CSS oder JavaScript, bevor etwas als fertig ge
 2. `node qa/check.js` (muss mit „Alles in Ordnung“ enden)
 3. `node qa/a11y.js` (muss mit „Keine Befunde“ enden; braucht `npm i --no-save axe-core`)
 
-Die Prüfung scrollt jede Seite mit echtem Mausrad auf sieben Bildschirmgrößen durch und findet:
-leere Bildschirme (Leerlauf), verschobene gepinnte Kapitel, seitliches Scrollen, Konsolenfehler,
-fehlende Dateien, Anfragen an fremde Server und Inhalte, die unsichtbar bleiben.
+Die Prüfung scrollt jede Seite mit echtem Mausrad auf neun Bildschirmgrößen (320 bis 2560 px) durch
+und findet: leere Bildschirme, **Lücken über 300 px zwischen zwei Inhalten im selben Bildschirm**,
+verschobene gepinnte Kapitel, Inhalte, die aus einer festgehaltenen Bühne ragen, abgeschnittenen
+Text in Karten, seitliches Scrollen, Konsolenfehler, fehlende Dateien, Anfragen an fremde Server und
+Inhalte, die nie sichtbar werden. Beweisbilder landen in `qa/befunde/`.
 
 Schlägt sie fehl, wird nicht ausgeliefert und der Fehler nicht als „Messartefakt“ abgetan,
 bevor er im Screenshot geklärt ist. Screenshots werden vollständig angesehen: Ein leerer oder
@@ -25,6 +27,11 @@ halb leerer Bildschirm ist ein Fehler, kein Zwischenzustand.
   zuerst, und `refreshPriority` setzen. Sonst rechnet ein Kapitel mit einer falschen Position und
   hinterlässt leere Bildschirme. Nach Inhaltsänderungen `ScrollTrigger.refresh()`.
 - Getestet wird mit `page.mouse.wheel`, nicht nur mit `window.scrollTo`.
+- **Keine bildschirmhohen Bühnen mit mittig schwebendem Inhalt.** Das erzeugt beim Hinein- und
+  Herausscrollen halbe Bildschirme Leere. Festgehaltene Bühnen sind so hoch wie ihr Inhalt und
+  stehen im optischen Zentrum; Kapitel-Überschriften stehen oben, nicht mittig.
+- Ein einziges Abstandsmaß für Abschnitte (`--sec-pad` bei Koop, `section{padding:96px 0}` bei Tietmann).
+- Keine Hilfsklassen mit allgemeinen Namen (Fehler: `.live` im Formular traf auch `.story.live`).
 - Keine Verbindung zu fremden Servern (keine Google Fonts, keine CDNs). Alles liegt in `assets/`.
 - Inhalte müssen ohne JavaScript und mit „Bewegung reduzieren“ sichtbar bleiben.
 - Keine erfundenen Fakten über die Kanzleien. Unbestätigtes bleibt als Platzhalter markiert.

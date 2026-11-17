@@ -75,7 +75,7 @@ h3{font-size:1.35rem;font-weight:600}
 p{margin:0 0 1em}
 a{color:inherit}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
-section{padding:112px 0}
+section{padding:96px 0}
 section.tight{padding-top:0}
 .eyebrow{font-size:.95rem;letter-spacing:.02em;color:var(--accent-text);font-weight:600;margin-bottom:16px;display:block}
 .lead{font-size:1.2rem;color:var(--ink-2);max-width:58ch}
@@ -208,8 +208,8 @@ input:user-invalid,textarea:user-invalid{border-color:var(--accent-text);border-
 .err{display:none;color:var(--accent-text);font-size:.88rem;margin-top:4px;font-weight:600}
 .invalid + .err{display:flex;gap:8px;align-items:center}
 .err::before{content:"!";flex:none;width:18px;height:18px;border-radius:50%;background:var(--accent-text);color:var(--base);font-size:.75rem;display:inline-flex;align-items:center;justify-content:center}
-.live{font-size:.88rem;color:var(--muted);margin-top:6px;min-height:1.2em}
-.live strong{color:var(--ink)}
+p.live{font-size:.88rem;color:var(--muted);margin-top:6px;min-height:1.2em}
+p.live strong{color:var(--ink)}
 .check{display:flex;gap:10px;align-items:flex-start;margin-top:18px;font-size:.95rem;font-weight:400;color:var(--ink-2)}
 .check input{width:20px;min-height:20px;height:20px;margin-top:3px;flex:none;accent-color:var(--primary)}
 .hint{font-size:.88rem;color:var(--muted);margin-top:14px}
@@ -302,7 +302,7 @@ footer a{color:var(--on-dark)}
 /* ===== Intro: Richterhammer ===== */
 .on-dark .btn-ghost{border-color:color-mix(in srgb,var(--base) 55%,transparent);color:var(--on-dark)}
 .on-dark .btn-ghost:hover{border-color:var(--base)}
-.intro{padding-bottom:120px !important;background:radial-gradient(120% 80% at 50% 0%,color-mix(in srgb,var(--primary) 80%,var(--accent)) 0%,var(--deep) 55%,var(--deep-2) 100%);color:var(--on-dark);min-height:calc(100svh - var(--tb,104px));display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px 24px 96px;position:relative;overflow:hidden}
+.intro{padding-bottom:88px !important;background:radial-gradient(120% 80% at 50% 0%,color-mix(in srgb,var(--primary) 80%,var(--accent)) 0%,var(--deep) 55%,var(--deep-2) 100%);color:var(--on-dark);min-height:calc(100svh - var(--tb,104px));display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px 24px 96px;position:relative;overflow:hidden}
 .gavel-stage{width:min(460px,78vw);animation:shake .42s linear 1.29s both}
 .gavel-stage svg{display:block;width:100%;height:auto;overflow:visible}
 .gavel-stage .block{fill:var(--deep-2);stroke:var(--accent);stroke-width:2}
@@ -342,7 +342,7 @@ footer a{color:var(--on-dark)}
 @keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
 
 /* ===== Story: Waage ===== */
-.story{background:var(--deep-2);color:var(--on-dark);position:relative}
+.story{background:var(--deep-2);color:var(--on-dark);position:relative;padding:0} /* Bühne hat eigene Abstände */
 .story .stage{max-width:var(--max);margin:0 auto;padding:56px 24px;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
 .story .viz{min-width:0}
 .scale{display:block;width:100%;height:auto;overflow:visible}
@@ -375,18 +375,23 @@ footer a{color:var(--on-dark)}
 .scard li::before{content:"";position:absolute;left:2px;top:18px;width:9px;height:9px;border-radius:50%;background:var(--accent)}
 .scard li a{color:var(--accent-light);font-weight:600}
 .scard .intro-cta{justify-content:flex-start;margin-top:8px}
-.skipstory{display:none}
 
 /* Live-Modus (JS aktiv, keine reduzierte Bewegung) */
 .story.live{height:900vh}
 .story.live .stage{position:sticky;top:var(--tb,104px);height:calc(100svh - var(--tb,104px));padding-top:24px;padding-bottom:24px}
+/* Waagen-Szene: Bühne so hoch wie ihr Inhalt (max. 620 px), festgehalten im optischen Zentrum (oberes Drittel des Restraums) */
+@media (min-width:901px){
+  .story .stage{max-width:min(1800px,100%)}
+  .story.live .stage{--sh:min(calc(100svh - var(--tb,104px)),max(620px,62svh));height:var(--sh);top:calc(var(--tb,104px) + (100svh - var(--tb,104px) - var(--sh)) / 3);padding-top:8px;padding-bottom:8px}
+  .story.live .scale{max-height:calc(var(--sh) - 110px)}
+}
 .story.live .scale{max-height:calc(100svh - var(--tb,104px) - 110px)}
 .story.live .scards{height:100%;display:grid;align-items:center}
 .story.live .scard{grid-area:1/1;border-top:0;padding:0;opacity:0;transform:translateY(28px);transition:opacity .45s ease,transform .55s cubic-bezier(.2,.8,.2,1);pointer-events:none}
 .story.live .scard.on{opacity:1;transform:none;pointer-events:auto}
 .story.live .scard.past{transform:translateY(-28px)}
-.story.live .skipstory{display:block;position:sticky;bottom:18px;margin:-60px 24px 0 auto;width:max-content;color:var(--on-dark-muted);font-size:.85rem;text-underline-offset:3px;z-index:2}
-.story.live .skipstory{position:absolute;right:24px;bottom:24px;margin:0}
+.skipstory{display:inline-flex;align-items:center;min-height:44px;margin-top:6px;color:var(--on-dark-muted);font-size:.85rem;text-underline-offset:3px}
+.viz{text-align:center}
 
 @media (max-width:900px){
   .story .stage{grid-template-columns:1fr;gap:20px}
@@ -405,6 +410,7 @@ footer a{color:var(--on-dark)}
 @media (max-width:900px){.story.live .stage{height:calc(100svh - var(--tb,96px) - 70px - env(safe-area-inset-bottom))}.story.live .scale{max-height:34svh}}
 @media (max-width:900px) and (max-height:920px){.story.live .scard ul{display:none}}
 
+@media (prefers-reduced-motion:reduce) and (min-width:901px){.story .stage{align-items:start}.story .viz{position:sticky;top:calc(var(--tb,104px) + 24px)}}
 @media (prefers-reduced-motion:reduce){
   #gavel,.gavel-stage,.word span,.intro .after,.cue,.cue i,.gavel-stage .block-top{animation:none!important}
   .gavel-stage .ring{animation:none!important;opacity:0}
@@ -524,7 +530,7 @@ summary:hover{color:var(--accent-text)}
 <section class="story on-dark" id="story" aria-label="Rechtsgebiete">
   <div class="stage">
     <div class="viz">
-      <svg class="scale" viewBox="0 0 760 560" aria-hidden="true">
+      <svg class="scale" viewBox="0 70 760 490" aria-hidden="true">
         <circle class="halo" cx="380" cy="300" r="250"/>
         <g class="scale-body">
           <path class="metal-d" d="M282 532 H478 L452 500 H308 Z"/>
@@ -571,6 +577,7 @@ summary:hover{color:var(--accent-text)}
         <li><button type="button" data-step="6">Verwaltung</button></li>
         <li><button type="button" data-step="7">Arbeit</button></li>
       </ol>
+      <a class="skipstory" href="#kuendigung">Rechtsgebiete überspringen</a>
     </div>
 
     <div class="scards">
@@ -628,7 +635,6 @@ summary:hover{color:var(--accent-text)}
       </article>
     </div>
   </div>
-  <a class="skipstory" href="#kuendigung">Überspringen</a>
 </section>
 
 <section id="kuendigung">
@@ -982,7 +988,7 @@ f.addEventListener('change',e=>{const el=e.target;if(el.type==='checkbox'&&el.re
     [[ringL,ringT[0]],[ringR,ringT[1]]].forEach(([el,t0])=>{const k=(now-t0)/600; if(k>=0&&k<1){el.style.opacity=1-k;el.setAttribute('transform',`translate(0 0) scale(${1+k*.5} ${1+k*.9})`);el.style.transformOrigin='0px 190px'}else el.style.opacity=0});
 
     // Erscheinen der Waage im ersten Schritt
-    const e=live?(seg===0?clamp(t*3):1):1;
+    const e=1; // Waage ist sofort da: kein leerer Bühnenanfang
     body.style.opacity=e; svg.querySelector('.weights').style.opacity=e;
     body.setAttribute('transform',`translate(0 ${(1-e)*40})`);
     svg.classList.toggle('balanced',live?(seg===N-1&&t>.15):true);

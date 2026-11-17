@@ -31,6 +31,7 @@
   --wrap: 1180px;
   --gutter: clamp(20px, 5vw, 64px);
   --nav-h: 52px;
+  --sec-pad: clamp(80px, 9vw, 128px); /* ein Abstandsmaß für alle Abschnitte */
   --r-lg: 28px;
   --r-md: 18px;
   --r-sm: 10px;
@@ -141,7 +142,7 @@ body.menu-open { overflow: hidden; }
 
 .on-night { background: var(--night); color: var(--moon); }
 .on-paper2 { background: var(--paper-2); }
-.sec { padding-block: clamp(96px, 13vw, 168px); position: relative; }
+.sec { padding-block: var(--sec-pad); position: relative; }
 .sec-head { text-align: center; max-width: 52rem; margin: 0 auto clamp(48px, 7vw, 88px); }
 .sec-head h2 { font-size: clamp(2.5rem, 6.2vw, 5rem); }
 .sec-head p { margin: 22px auto 0; max-width: 38rem; font-size: clamp(1.125rem, 1.6vw, 1.3125rem); color: var(--ink-2); line-height: 1.5; }
@@ -198,8 +199,9 @@ body.menu-open { overflow: hidden; }
 
 /* ---------- Satz, der sich beim Scrollen füllt ---------- */
 
-.statement { height: 260vh; }
-.statement-stage { position: sticky; top: 0; height: 100vh; height: 100svh; display: grid; align-items: center; }
+.statement { height: 220vh; }
+/* Bühne nur halb so hoch wie der Bildschirm und mittig festgehalten: kein halber Bildschirm Leere davor und danach */
+.statement-stage { position: sticky; top: 25vh; top: 25svh; min-height: 50vh; min-height: 50svh; display: grid; align-items: center; }
 .statement p {
   max-width: 21ch; margin-inline: auto; text-align: center;
   font-size: clamp(2.1rem, 5.8vw, 4.9rem); font-weight: 650; line-height: 1.08; letter-spacing: -0.038em;
@@ -343,8 +345,8 @@ body.menu-open { overflow: hidden; }
 
 /* ---------- Ablauf: Linie füllt sich ---------- */
 
-.process { height: 220vh; }
-.process-stage { position: sticky; top: 0; min-height: 100vh; min-height: 100svh; display: grid; align-content: center; grid-template-columns: minmax(0, 1fr); padding-block: calc(var(--nav-h) + 32px) 48px; }
+.process { height: auto; }
+.process-stage { position: static; display: block; padding-block: var(--sec-pad); }
 .process .sec-head { margin-bottom: clamp(40px, 6vw, 72px); }
 .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); position: relative; }
 .steps::before, .steps::after { content: ""; position: absolute; left: 0; right: 0; top: 7px; height: 2px; background: var(--rule); }
@@ -481,11 +483,9 @@ body.menu-open { overflow: hidden; }
   .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 40px; }
   .steps::before, .steps::after { display: none; }
   .js .step { opacity: 1; }
-  .process { height: auto; }
-  .process-stage { position: static; min-height: 0; padding-block: clamp(96px, 13vw, 168px); }
   .zoom { height: 180vh; }
   .zoom-frame { width: calc(78vw + var(--p, 0) * 22vw); height: calc(46vh + var(--p, 0) * 54vh); }
-  .statement { height: 200vh; }
+  .statement { height: 180vh; }
 }
 
 @media (max-width: 640px) {
@@ -552,7 +552,7 @@ body.menu-open { overflow: hidden; }
 [data-magnetic] { will-change: transform; }
 
 /* ---------- Steuerjahr ---------- */
-.year { background: var(--paper); padding-top: clamp(96px, 12vw, 160px); }
+.year { background: var(--paper); padding-top: var(--sec-pad); }
 .year-intro { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 24px clamp(40px, 6vw, 96px); align-items: end; }
 .year-head h2 { font-size: clamp(2.6rem, 6vw, 5rem); }
 .year-head p { margin-top: 22px; font-size: 1.1875rem; color: var(--ink-2); max-width: 32rem; }
@@ -612,17 +612,18 @@ body.menu-open { overflow: hidden; }
 .ev[data-k="ust"] .ev-day { color: var(--brick); }
 .month.is-now .ev[data-k="ust"] .ev-day { color: var(--brick-glow); }
 .month-empty { margin-top: 16px; font-size: 0.9375rem; color: var(--ink-2); }
-.year-foot { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px clamp(40px, 6vw, 96px); align-items: end; padding-bottom: clamp(96px, 12vw, 160px); }
+.year-foot { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px clamp(40px, 6vw, 96px); align-items: end; padding-bottom: var(--sec-pad); }
 .year-foot .big-date { margin-top: 0; }
 .year-fine { font-size: 0.8125rem; color: var(--ink-2); max-width: 36rem; }
 
 /* ---------- Horizontales Leistungs-Kapitel ---------- */
 .hscroll { overflow: hidden; }
-.h-pin { height: 100vh; height: 100svh; display: flex; align-items: center; }
-.h-track { display: flex; gap: 20px; padding-inline: var(--gutter); width: max-content; align-items: stretch; will-change: transform; }
+.h-pin { height: 100vh; height: 100svh; display: flex; flex-direction: column; box-sizing: border-box;
+  padding: calc(var(--nav-h) + clamp(24px, 5vh, 64px)) 0 clamp(24px, 5vh, 64px); }
+.h-track { display: flex; gap: 20px; padding-inline: var(--gutter); width: max-content; align-items: stretch; margin-block: auto; flex: none; will-change: transform; }
 @media (min-width: 1300px) { .h-track { padding-left: calc((100vw - var(--wrap)) / 2); padding-right: calc((100vw - var(--wrap)) / 2); } }
 .panel {
-  width: clamp(320px, 34vw, 440px); flex: none; min-height: min(560px, 72vh); border-radius: var(--r-lg); background: var(--sheet);
+  width: clamp(320px, 34vw, 440px); flex: none; border-radius: var(--r-lg); background: var(--sheet);
   padding: clamp(28px, 3vw, 44px); display: flex; flex-direction: column; position: relative; overflow: hidden;
 }
 .panel h3 { font-size: clamp(1.8rem, 2.6vw, 2.4rem); position: relative; }
@@ -633,7 +634,7 @@ body.menu-open { overflow: hidden; }
   position: absolute; right: -0.08em; top: 0.1em; font-size: clamp(5rem, 9vw, 8rem); font-weight: 800; letter-spacing: -0.06em; line-height: 1;
   color: transparent; -webkit-text-stroke: 1px var(--rule); writing-mode: vertical-rl; transform: rotate(180deg); pointer-events: none; user-select: none;
 }
-.panel-intro { background: none; padding-left: 0; width: clamp(340px, 40vw, 560px); justify-content: center; }
+.panel-intro { background: none; padding-left: 0; width: clamp(340px, 40vw, 560px); justify-content: flex-start; }
 .panel-intro h2 { font-size: clamp(2.6rem, 5vw, 4.4rem); }
 .panel-intro > p { font-size: 1.1875rem; max-width: 28rem; }
 .h-hint { margin-top: 32px !important; font-weight: 600; color: var(--brick) !important; }
@@ -659,7 +660,8 @@ body.menu-open { overflow: hidden; }
   .year-progress { display: none; }
   .year-track { width: auto; flex-direction: column; padding-block: 8px 40px; }
   .month { width: auto; min-height: 0; }
-  .h-pin { height: auto; display: block; padding-block: clamp(96px, 13vw, 168px); }
+  .h-pin { height: auto; display: block; padding: var(--sec-pad) 0; }
+  .h-track { height: auto; }
   .h-track { width: auto; flex-direction: column; }
   .panel, .panel-intro { width: auto; min-height: 0; }
   .panel-intro { padding: 0 0 12px; }
@@ -702,3 +704,32 @@ body.menu-open { overflow: hidden; }
 .ev.is-past .ev-what small { text-decoration: none; display: block; color: var(--ink-2); }
 .month.is-now .ev.is-past .ev-day, .month.is-now .ev.is-past .ev-what, .month.is-now .ev.is-past[data-k="ust"] .ev-day, .month.is-now .ev.is-past .ev-what small { color: var(--moon-2); text-decoration-color: var(--rule-dark); }
 .rail:focus-visible { outline: 2px solid var(--brick); outline-offset: -2px; }
+
+/* Leistungs-Kapitel: Kopf fest oben, Karten in natürlicher Höhe mittig im Restraum */
+.h-head { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 16px clamp(32px, 5vw, 80px); align-items: end; flex: none; }
+.h-head h2 { font-size: clamp(2.4rem, 4.6vw, 4.2rem); }
+.h-head-side > p:first-child { font-size: 1.125rem; color: var(--ink-2); max-width: 30rem; }
+.h-head .h-hint { margin-top: 16px !important; }
+.h-track { padding-top: clamp(24px, 4vh, 48px); }
+.panel { min-height: min(520px, 58vh); }
+@media (max-width: 900px) {
+  .h-head { grid-template-columns: minmax(0, 1fr); padding-bottom: 24px; }
+  .h-head .h-hint { display: none; }
+  .h-track { padding-top: 0; margin-block: 0; }
+  .panel { min-height: 0; }
+}
+
+/* Flache Desktop-Bildschirme (z. B. 1366 × 768): Kopf und Karten kompakter, damit alles in die festgehaltene Bühne passt */
+@media (min-width: 901px) and (max-height: 900px) {
+  .h-pin { padding-top: calc(var(--nav-h) + 20px); padding-bottom: 20px; }
+  .h-head h2 { font-size: clamp(2rem, 6.2vh, 3.4rem); }
+  .h-head-side > p:first-child { font-size: 1rem; }
+  .h-head .h-hint { display: none; }
+  .h-track { padding-top: 18px; }
+  .panel { min-height: 0; padding: 26px 28px; }
+  .panel h3 { font-size: clamp(1.45rem, 3.4vh, 2rem); }
+  .panel > p { font-size: 0.96875rem; margin-top: 8px; }
+  .panel ul { padding-top: 14px; }
+  .panel li { padding: 7px 0; font-size: 0.9rem; }
+  .panel-brick .btn { margin-top: 18px; }
+}
