@@ -42,3 +42,19 @@ halb leerer Bildschirm ist ein Fehler, kein Zwischenzustand.
 - Keine erfundenen Fakten über die Kanzleien. Unbestätigtes bleibt als Platzhalter markiert.
 - Nichts im Browser speichern (kein Cookie, kein localStorage, kein sessionStorage): § 25 TDDDG.
 - Rechtstexte bleiben Entwürfe, bis der Kanzleiinhaber sie freigibt. Offene Punkte stehen in `RECHTS-CHECK.md`.
+
+## Skills und Agenten von Dritten
+
+Liegen in `.claude/skills/` und `.claude/agents/`. Neue nur nach dieser Regel aufnehmen:
+
+1. Quelle direkt auf GitHub oder skills.sh finden, nicht über Social-Media-Umwege
+   (`npx skills find <begriff>` oder der Skill `find-skills`).
+2. Vor dem Installieren jede `SKILL.md` lesen. Lizenz prüfen und mit ablegen.
+3. **Keine Hooks und keine Installationsskripte von Dritten übernehmen**, nur die Texte. Hooks
+   laufen bei jedem Schritt automatisch mit vollen Rechten.
+
+Aktuell übernommen:
+- `find-skills` (vercel-labs/skills, MIT)
+- `ponytail`, `ponytail-review`, `ponytail-audit`, `ponytail-debt`, `ponytail-gain`, `ponytail-help`
+  (DietrichGebert/ponytail, MIT, Stand 96608e0), ohne die Hooks des Repos
+- Agenten „Legal Compliance Checker“, „Accessibility Auditor“ (msitarzewski/agency-agents, MIT)
