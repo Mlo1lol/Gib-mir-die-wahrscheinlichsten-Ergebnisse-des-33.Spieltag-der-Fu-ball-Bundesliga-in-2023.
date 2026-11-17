@@ -27,10 +27,15 @@ halb leerer Bildschirm ist ein Fehler, kein Zwischenzustand.
   zuerst, und `refreshPriority` setzen. Sonst rechnet ein Kapitel mit einer falschen Position und
   hinterlässt leere Bildschirme. Nach Inhaltsänderungen `ScrollTrigger.refresh()`.
 - Getestet wird mit `page.mouse.wheel`, nicht nur mit `window.scrollTo`.
+- **Nur festhalten, was den Bildschirm füllt oder seitwärts läuft.** Ein festgehaltener Block, der
+  kürzer ist als der Bildschirm, hinterlässt auf hohen Monitoren zwangsläufig Leerstreifen (beim
+  Kernsatz nachgerechnet). Solche Effekte laufen mit dem Scrollen mit, statt festzustehen.
 - **Keine bildschirmhohen Bühnen mit mittig schwebendem Inhalt.** Das erzeugt beim Hinein- und
   Herausscrollen halbe Bildschirme Leere. Festgehaltene Bühnen sind so hoch wie ihr Inhalt und
   stehen im optischen Zentrum; Kapitel-Überschriften stehen oben, nicht mittig.
 - Ein einziges Abstandsmaß für Abschnitte (`--sec-pad` bei Koop, `section{padding:96px 0}` bei Tietmann).
+- Einblendungen starten, sobald der Inhalt unten ins Bild kommt (`top bottom`), nicht erst bei 88 %.
+- In der ruhigen Fassung („Bewegung reduzieren“) sind Bühnen `position: static`, sonst wirken `top`-Werte als Versatz.
 - Keine Hilfsklassen mit allgemeinen Namen (Fehler: `.live` im Formular traf auch `.story.live`).
 - Keine Verbindung zu fremden Servern (keine Google Fonts, keine CDNs). Alles liegt in `assets/`.
 - Inhalte müssen ohne JavaScript und mit „Bewegung reduzieren“ sichtbar bleiben.

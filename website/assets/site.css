@@ -199,9 +199,11 @@ body.menu-open { overflow: hidden; }
 
 /* ---------- Satz, der sich beim Scrollen füllt ---------- */
 
-.statement { height: 220vh; }
+.statement { height: auto; }
 /* Bühne nur halb so hoch wie der Bildschirm und mittig festgehalten: kein halber Bildschirm Leere davor und danach */
-.statement-stage { position: sticky; top: 25vh; top: 25svh; min-height: 50vh; min-height: 50svh; display: grid; align-items: center; }
+/* Kernsatz läuft mit (nicht festgehalten): ein festgehaltener Block, kürzer als der Bildschirm, hinterlässt
+   auf hohen Bildschirmen zwangsläufig Leerstreifen. Die Wörter füllen sich, während der Satz durchs Bild wandert. */
+.statement-stage { padding-block: clamp(96px, 10vh, 160px); }
 .statement p {
   max-width: 21ch; margin-inline: auto; text-align: center;
   font-size: clamp(2.1rem, 5.8vw, 4.9rem); font-weight: 650; line-height: 1.08; letter-spacing: -0.038em;
@@ -485,7 +487,6 @@ body.menu-open { overflow: hidden; }
   .js .step { opacity: 1; }
   .zoom { height: 180vh; }
   .zoom-frame { width: calc(78vw + var(--p, 0) * 22vw); height: calc(46vh + var(--p, 0) * 54vh); }
-  .statement { height: 180vh; }
 }
 
 @media (max-width: 640px) {
@@ -512,8 +513,8 @@ body.menu-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
   .hero, .statement, .zoom, .process { height: auto; }
-  .hero-stage, .statement-stage, .zoom-stage, .process-stage { position: relative; }
-  .statement-stage { padding-block: 120px; height: auto; }
+  .hero-stage, .statement-stage, .zoom-stage, .process-stage { position: static; top: auto; }
+  .statement-stage { padding-block: var(--sec-pad); height: auto; }
   .zoom-stage { height: 80vh; }
 }
 .rm .js [data-reveal], .rm [data-reveal] { opacity: 1; transform: none; }
@@ -617,10 +618,9 @@ body.menu-open { overflow: hidden; }
 .year-fine { font-size: 0.8125rem; color: var(--ink-2); max-width: 36rem; }
 
 /* ---------- Horizontales Leistungs-Kapitel ---------- */
-.hscroll { overflow: hidden; }
-.h-pin { height: 100vh; height: 100svh; display: flex; flex-direction: column; box-sizing: border-box;
-  padding: calc(var(--nav-h) + clamp(24px, 5vh, 64px)) 0 clamp(24px, 5vh, 64px); }
-.h-track { display: flex; gap: 20px; padding-inline: var(--gutter); width: max-content; align-items: stretch; margin-block: auto; flex: none; will-change: transform; }
+.hscroll { overflow: hidden; padding-block: var(--sec-pad); }
+.h-pin { display: flex; flex-direction: column; overflow: hidden; }
+.h-track { display: flex; gap: 20px; padding-inline: var(--gutter); width: max-content; align-items: stretch; flex: none; will-change: transform; }
 @media (min-width: 1300px) { .h-track { padding-left: calc((100vw - var(--wrap)) / 2); padding-right: calc((100vw - var(--wrap)) / 2); } }
 .panel {
   width: clamp(320px, 34vw, 440px); flex: none; border-radius: var(--r-lg); background: var(--sheet);
@@ -660,7 +660,7 @@ body.menu-open { overflow: hidden; }
   .year-progress { display: none; }
   .year-track { width: auto; flex-direction: column; padding-block: 8px 40px; }
   .month { width: auto; min-height: 0; }
-  .h-pin { height: auto; display: block; padding: var(--sec-pad) 0; }
+  .h-pin { display: block; }
   .h-track { height: auto; }
   .h-track { width: auto; flex-direction: column; }
   .panel, .panel-intro { width: auto; min-height: 0; }
@@ -721,7 +721,6 @@ body.menu-open { overflow: hidden; }
 
 /* Flache Desktop-Bildschirme (z. B. 1366 × 768): Kopf und Karten kompakter, damit alles in die festgehaltene Bühne passt */
 @media (min-width: 901px) and (max-height: 900px) {
-  .h-pin { padding-top: calc(var(--nav-h) + 20px); padding-bottom: 20px; }
   .h-head h2 { font-size: clamp(2rem, 6.2vh, 3.4rem); }
   .h-head-side > p:first-child { font-size: 1rem; }
   .h-head .h-hint { display: none; }

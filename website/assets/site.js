@@ -123,7 +123,9 @@
       var ease = el.hasAttribute("data-ease") ? 1 - Math.pow(1 - p, 3) : p;
       el.style.setProperty("--p", ease.toFixed(4));
       if (el.classList.contains("statement")) {
-        var ws = words[0], lit = Math.round(clamp((p - 0.08) / 0.78) * ws.length);
+        // Fortschritt am Satz selbst: leer, wenn er bei 85 % der Bildschirmhöhe ist, voll bei 40 %
+        var sr = el.querySelector("p").getBoundingClientRect();
+        var ws = words[0], lit = Math.round(clamp((vh * 0.85 - sr.top) / (vh * 0.45)) * ws.length);
         for (var k = 0; k < ws.length; k++) ws[k].classList.toggle("on", k < lit);
       }
       if (el.classList.contains("process")) {
@@ -153,7 +155,7 @@
   if ("IntersectionObserver" in window && !reduce) {
     var ro = new IntersectionObserver(function (es) {
       es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("is-in"); ro.unobserve(e.target); } });
-    }, { rootMargin: "0px 0px -12% 0px" });
+    }, { rootMargin: "0px" }); // einblenden, sobald der Inhalt ins Bild kommt (kein Leerraum auf hohen Bildschirmen)
     reveals.forEach(function (el) { ro.observe(el); });
   } else reveals.forEach(function (el) { el.classList.add("is-in"); });
 
@@ -352,7 +354,7 @@
         type: "lines", mask: "lines", linesClass: "split-line", autoSplit: true,
         onSplit: function (self) {
           return G.from(self.lines, { yPercent: 105, duration: 1.15, ease: "expo.out", stagger: 0.09,
-            scrollTrigger: { trigger: el, start: "top 88%", once: true } });
+            scrollTrigger: { trigger: el, start: "top bottom", once: true } }); // startet, sobald die Überschrift unten ins Bild kommt
         }
       });
     });
@@ -371,10 +373,15 @@
           .to(ytrack, { x: function () { return -dist(); }, ease: "none" }, 0)
           .to(bar, { scaleX: 1, ease: "none" }, 0);
       }
-      var track = document.querySelector(".h-track"), sec = document.querySelector(".hscroll");
-      if (track && sec) {
+      // Festgehalten wird nur Kopf + Karten, und zwar mittig, sobald der Block dort ankommt.
+      // Passt er nicht ganz ins Bild, wird er direkt unter der Navigation festgehalten.
+      var track = document.querySelector(".h-track"), hpin = document.querySelector(".h-pin");
+      if (track && hpin) {
+        var navH = 52;
         G.to(track, { x: function () { return -(track.scrollWidth - window.innerWidth); }, ease: "none",
-          scrollTrigger: { trigger: sec, start: "top top", end: function () { return "+=" + (track.scrollWidth - window.innerWidth); }, pin: true, scrub: 0.8, invalidateOnRefresh: true, anticipatePin: 1, refreshPriority: 1 } });
+          scrollTrigger: { trigger: hpin, pin: true, scrub: 0.8, invalidateOnRefresh: true, anticipatePin: 1, refreshPriority: 1,
+            start: function () { return hpin.offsetHeight > window.innerHeight - navH - 32 ? "top top+=" + (navH + 16) : "center center+=" + navH / 2; },
+            end: function () { return "+=" + (track.scrollWidth - window.innerWidth); } } });
       }
       ScrollTrigger.sort(); ScrollTrigger.refresh();
     });

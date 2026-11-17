@@ -61,7 +61,7 @@
       SPLIT.create(el, {
         type: "lines", mask: "lines", linesClass: "split-line", autoSplit: true,
         onSplit: function (self) {
-          return G.from(self.lines, { yPercent: 108, duration: 1.15, ease: "expo.out", stagger: 0.09, scrollTrigger: { trigger: el, start: "top 88%", once: true } });
+          return G.from(self.lines, { yPercent: 108, duration: 1.15, ease: "expo.out", stagger: 0.09, scrollTrigger: { trigger: el, start: "top bottom", once: true } });
         }
       });
     });
@@ -73,7 +73,7 @@
     var els = document.querySelectorAll(sel);
     if (!els.length) return;
     G.set(els, { opacity: 0, y: 28 });
-    ST.batch(els, { start: "top 90%", once: true, onEnter: function (b) { G.to(b, { opacity: 1, y: 0, duration: 1, ease: "expo.out", stagger: 0.08, overwrite: true }); } });
+    ST.batch(els, { start: "top bottom", once: true, onEnter: function (b) { G.to(b, { opacity: 1, y: 0, duration: 1, ease: "expo.out", stagger: 0.08, overwrite: true }); } });
   });
   // Sicherung: nichts bleibt versteckt, falls ein Trigger nicht feuert
   window.addEventListener("load", function () { setTimeout(function () { ST.refresh(); }, 50); });
