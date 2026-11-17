@@ -58,3 +58,18 @@ Aktuell übernommen:
 - `ponytail`, `ponytail-review`, `ponytail-audit`, `ponytail-debt`, `ponytail-gain`, `ponytail-help`
   (DietrichGebert/ponytail, MIT, Stand 96608e0), ohne die Hooks des Repos
 - Agenten „Legal Compliance Checker“, „Accessibility Auditor“ (msitarzewski/agency-agents, MIT)
+
+## Arbeitsumgebung des Nutzers: Dienstrechner
+
+Der Nutzer arbeitet grundsätzlich auf einem **Dienstrechner der Firma, oft im Firmen-VPN**.
+Bevor eine Anleitung auf seinem Rechner etwas installiert, ausführt oder Daten nach außen schickt
+(Claude Code, npm/npx, Browser-Erweiterungen, Skripte, Netzwerk- oder Systemprüfungen):
+
+1. **Ausdrücklich darauf hinweisen**, dass es ein Dienstrechner ist und die IT-Richtlinie das
+   womöglich verbietet; im Zweifel zuerst die IT fragen.
+2. Benennen, welche Daten dabei das Gerät verlassen würden (z. B. Netzwerknamen, IP-Adressen,
+   VPN, interne Server, Dateien).
+3. Wenn möglich eine Alternative nennen: privates Gerät ohne Firmen-VPN.
+
+Anlass (November 2026): Für einen WLAN-Check wurde Claude Code auf dem Dienstrechner installiert
+und lief im VPN, ohne vorherigen Hinweis. Danach deinstalliert; der Nutzer informiert seine IT.
