@@ -33,10 +33,14 @@ function serve(dir) {
 }
 const MARK = () => { window.__seen = window.__seen || new Set(); const vh = innerHeight, vw = innerWidth;
   // sichtbar = im Bild (senkrecht UND waagerecht) und nicht von einem Elternelement mit overflow abgeschnitten
-  const shown = e => { let r = e.getBoundingClientRect(); let L = Math.max(0, r.left), T = Math.max(0, r.top), R = Math.min(vw, r.right), B = Math.min(vh, r.bottom);
+  const shown = e => { let r = e.getBoundingClientRect();
+    // In einem waagerecht scrollbaren Karussell zählt die Lage des Karussells (Besucher wischen dorthin)
+    let scroller = null; for (let a = e.parentElement; a && a !== document.body; a = a.parentElement) { if (/auto|scroll/.test(getComputedStyle(a).overflowX)) { scroller = a; break; } }
+    const hr = scroller ? scroller.getBoundingClientRect() : r;
+    let L = Math.max(0, hr.left), T = Math.max(0, r.top), R = Math.min(vw, hr.right), B = Math.min(vh, r.bottom);
     for (let a = e.parentElement; a && a !== document.body; a = a.parentElement) { const cs = getComputedStyle(a); const c = a.getBoundingClientRect();
       // hidden/clip schneidet ab; auto/scroll (Wisch-Karussell) ist für Besucher erreichbar und zählt nicht als abgeschnitten
-      if (/hidden|clip/.test(cs.overflowX)) { L = Math.max(L, c.left); R = Math.min(R, c.right); }
+      if (/hidden|clip/.test(cs.overflowX) && !(scroller && a.contains(scroller) === false && scroller.contains(a))) { L = Math.max(L, c.left); R = Math.min(R, c.right); }
       if (/hidden|clip/.test(cs.overflowY)) { T = Math.max(T, c.top); B = Math.min(B, c.bottom); } }
     return R - L > 4 && B - T > 4; };
   document.querySelectorAll('main h2, main h3, main p, main li, main form, main img').forEach(e => { if (window.__seen.has(e)) return; const b = e.getBoundingClientRect(); if (!b.height || !shown(e)) return; let o = 1, n = e; while (n && n !== document.body) { const cs = getComputedStyle(n); if (cs.visibility === 'hidden') { o = 0; break; } o *= +cs.opacity; n = n.parentElement; } if (o >= 0.5) window.__seen.add(e); }); };
